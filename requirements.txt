@@ -1,0 +1,9 @@
+# Python requirements for AI Chat Assistant
+
+# No external dependencies required for basic functionality
+# The project uses only Python standard library
+
+# Optional: For future enhancements
+# openai>=1.0.0  # For OpenAI API integration
+# requests>=2.31.0  # For HTTP requests
+# python-dotenv>=1.0.0  # For environment variables
