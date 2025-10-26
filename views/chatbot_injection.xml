@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Template d'injection simple -->
+    <template id="inject_chatbot_in_backend" name="Inject Chatbot">
+        <t t-call="ai_chat_assistant.chatbot_widget_complete"/>
+    </template>
+    
+</odoo>

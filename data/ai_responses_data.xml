@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- ============================================
+             QUESTIONS/RÉPONSES DE BASE EN ARABE
+             ============================================ -->
+        
+        <!-- Salutations en arabe -->
+        <record id="kb_arabic_greeting_1" model="ai.knowledge.base">
+            <field name="question">مرحبا، أهلا، سلام، حياك الله</field>
+            <field name="response">أهلاً وسهلاً! مرحباً بك في مساعد الذكاء الاصطناعي للتسويق. 
+
+🎯 يمكنني مساعدتك في:
+• تحليل أداء الحملات الإعلانية
+• تقديم توصيات لتحسين النتائج  
+• تحليل البيانات التسويقية
+• الإجابة على استفساراتك حول التسويق الرقمي
+
+كيف يمكنني مساعدتك اليوم؟</field>
+            <field name="language">ar</field>
+            <field name="category">greeting</field>
+            <field name="keywords">مرحبا، أهلا، سلام، حياك، هاي، هلو</field>
+            <field name="priority">100</field>
+            <field name="quick_actions">[{"text": "عرض الحملات النشطة", "action": "view_active_campaigns"}, {"text": "نظرة تسويقية شاملة", "action": "marketing_overview"}]</field>
+        </record>
+
+        <!-- Analyse des campagnes en arabe -->
+        <record id="kb_arabic_campaign_analysis" model="ai.knowledge.base">
+            <field name="question">ما أفضل قناة إعلانية هذا الشهر؟</field>
+            <field name="response">📊 **تحليل أفضل القنوات الإعلانية لهذا الشهر:**
+
+بناءً على بيانات حملاتك الحالية:
+
+📈 **أداء القنوات:**
+• معدل الفتح الإجمالي: {avg_open_rate:.1f}%
+• معدل الرد الإجمالي: {avg_reply_rate:.1f}%
+• إجمالي الرسائل المرسلة: {total_sent:,}
+
+🎯 **توصياتي:**
+1. راجع الحملات عالية الأداء وكررها
+2. حسّن أوقات الإرسال حسب جمهورك
+3. اختبر عناوين مختلفة لزيادة معدل الفتح
+
+هل تريد تفاصيل أكثر حول حملة معينة؟</field>
+            <field name="language">ar</field>
+            <field name="category">analytics</field>
+            <field name="keywords">أفضل، قناة، إعلانية، شهر، أداء، تحليل</field>
+            <field name="priority">95</field>
+            <field name="requires_data">True</field>
+            <field name="quick_actions">[{"text": "تفاصيل الحملات", "action": "campaign_details"}, {"text": "مقارنة القنوات", "action": "compare_channels"}]</field>
+        </record>
+
+        <!-- Recommandations AI en arabe -->
+        <record id="kb_arabic_ai_recommendations" model="ai.knowledge.base">
+            <field name="question">توصيات الذكاء الاصطناعي، اقتراحات تحسين، نصائح تسويقية</field>
+            <field name="response">🤖 **توصيات الذكاء الاصطناعي المتقدمة:**
+
+بناءً على تحليل بياناتك:
+
+⚠️ **تنبيهات هامة:**
+• أوقف حملة X - التكلفة مرتفعة والعائد ضعيف
+• ارفع الميزانية في Instagram - معدل التحويل أعلى بـ 35%
+
+💡 **اقتراحات التحسين:**
+1. **تحسين الأوقات:** أرسل في الفترة 10-11 صباحاً لأفضل نتائج
+2. **تخصيص المحتوى:** استخدم اسم المستلم في العنوان (+15% معدل فتح)
+3. **اختبار A/B:** جرب عناوين مختلفة لنفس المحتوى
+
+📊 **التحسينات المقترحة:**
+• زيادة التردد للجمهور المتفاعل
+• تقليل الإرسال للجمهور غير النشط
+• تحسين call-to-action في الحملات
+
+أي من هذه التوصيات تريد تطبيقها أولاً؟</field>
+            <field name="language">ar</field>
+            <field name="category">recommendations</field>
+            <field name="keywords">توصيات، اقتراحات، تحسين، نصائح، ذكاء اصطناعي</field>
+            <field name="priority">90</field>
+            <field name="requires_data">True</field>
+            <field name="quick_actions">[{"text": "تطبيق التوصيات", "action": "apply_recommendations"}, {"text": "تفاصيل أكثر", "action": "detailed_insights"}]</field>
+        </record>
+
+        <!-- Rapport des campagnes faibles en arabe -->
+        <record id="kb_arabic_underperforming" model="ai.knowledge.base">
+            <field name="question">اعطني تقرير الحملات الأقل أداء، حملات ضعيفة، أداء منخفض</field>
+            <field name="response">📉 **تقرير الحملات ضعيفة الأداء:**
+
+🔍 **الحملات التي تحتاج تحسين:**
+
+**المقاييس الحرجة:**
+• الحملات بمعدل فتح &lt; 15%: تحتاج تحسين العنوان
+• الحملات بمعدل رد &lt; 5%: تحتاج تحسين المحتوى
+• الحملات عالية التكلفة/منخفضة العائد
+
+**خطة العمل المقترحة:**
+1. **فوري:** أوقف الحملات الخاسرة
+2. **قصير المدى:** اختبر عناوين جديدة
+3. **متوسط المدى:** أعد تصميم المحتوى
+4. **طويل المدى:** راجع استراتيجية الاستهداف
+
+💰 **التوفير المتوقع:**
+• توقف الحملات الخاسرة: وفر 25% من الميزانية
+• تحسين الحملات: زيادة العائد بـ 40%
+
+هل تريد تفاصيل حملة معينة أو خطة تحسين شاملة؟</field>
+            <field name="language">ar</field>
+            <field name="category">analytics</field>
+            <field name="keywords">تقرير، حملات، أقل أداء، ضعيفة، منخفض</field>
+            <field name="priority">85</field>
+            <field name="requires_data">True</field>
+            <field name="quick_actions">[{"text": "إيقاف الحملات الضعيفة", "action": "stop_poor_campaigns"}, {"text": "خطة التحسين", "action": "improvement_plan"}]</field>
+        </record>
+
+        <!-- ============================================
+             QUESTIONS/RÉPONSES EN FRANÇAIS
+             ============================================ -->
+
+        <!-- Salutations en français -->
+        <record id="kb_french_greeting" model="ai.knowledge.base">
+            <field name="question">bonjour, salut, bonsoir, coucou</field>
+            <field name="response">Bonjour ! Bienvenue dans votre assistant IA marketing intelligent.
+
+🎯 **Je peux vous aider avec :**
+• Analyse des performances de campagnes
+• Recommandations d'optimisation personnalisées
+• Insights data-driven sur vos stratégies
+• Réponses à vos questions marketing
+
+Comment puis-je vous accompagner aujourd'hui dans votre stratégie marketing ?</field>
+            <field name="language">fr</field>
+            <field name="category">greeting</field>
+            <field name="keywords">bonjour, salut, bonsoir, coucou, hello</field>
+            <field name="priority">100</field>
+            <field name="quick_actions">[{"text": "Vue d'ensemble marketing", "action": "marketing_overview"}, {"text": "Recommandations AI", "action": "get_improvement_suggestions"}]</field>
+        </record>
+
+        <!-- Analyse marketing en français -->
+        <record id="kb_french_marketing_analysis" model="ai.knowledge.base">
+            <field name="question">analyse marketing, performance campagne, taux conversion</field>
+            <field name="response">📊 **Analyse Marketing Complète**
+
+**Résumé des performances :**
+• Taux d'ouverture moyen : {avg_open_rate:.1f}%
+• Taux de réponse moyen : {avg_reply_rate:.1f}%
+• Campagnes actives : {total_campaigns}
+• Total emails envoyés : {total_sent:,}
+
+📈 **Tendances identifiées :**
+• Les campagnes du matin (9h-11h) performent +25% mieux
+• Les emails personnalisés ont +40% de taux d'ouverture
+• Les call-to-action clairs augmentent le taux de clic de 30%
+
+💡 **Recommandations prioritaires :**
+1. Optimisez vos horaires d'envoi
+2. Personnalisez davantage vos messages  
+3. Testez différents formats de CTA
+
+Souhaitez-vous des détails sur une campagne spécifique ?</field>
+            <field name="language">fr</field>
+            <field name="category">marketing</field>
+            <field name="keywords">analyse, marketing, performance, campagne, taux, conversion</field>
+            <field name="priority">90</field>
+            <field name="requires_data">True</field>
+            <field name="quick_actions">[{"text": "Détails par campagne", "action": "campaign_details"}, {"text": "Optimisations suggérées", "action": "optimization_suggestions"}]</field>
+        </record>
+
+        <!-- ============================================
+             QUESTIONS/RÉPONSES EN ANGLAIS  
+             ============================================ -->
+
+        <!-- Greetings in English -->
+        <record id="kb_english_greeting" model="ai.knowledge.base">
+            <field name="question">hello, hi, hey, good morning, good afternoon</field>
+            <field name="response">Hello! Welcome to your AI Marketing Assistant.
+
+🎯 **I can help you with:**
+• Campaign performance analysis
+• AI-powered optimization recommendations  
+• Marketing strategy insights
+• Data-driven decision making support
+
+How can I assist you with your marketing goals today?</field>
+            <field name="language">en</field>
+            <field name="category">greeting</field>
+            <field name="keywords">hello, hi, hey, good morning, afternoon, evening</field>
+            <field name="priority">100</field>
+            <field name="quick_actions">[{"text": "Marketing Overview", "action": "marketing_overview"}, {"text": "AI Recommendations", "action": "get_improvement_suggestions"}]</field>
+        </record>
+
+        <!-- Campaign analysis in English -->
+        <record id="kb_english_campaign_analysis" model="ai.knowledge.base">
+            <field name="question">best advertising channel, campaign performance, marketing ROI</field>
+            <field name="response">📊 **Marketing Channel Performance Analysis**
+
+**Current Performance Metrics:**
+• Average Open Rate: {avg_open_rate:.1f}%
+• Average Response Rate: {avg_reply_rate:.1f}%
+• Active Campaigns: {total_campaigns}
+• Total Messages Sent: {total_sent:,}
+
+🎯 **Top Performing Channels:**
+Based on your current data, here are the key insights:
+
+**Optimization Opportunities:**
+1. **Timing Optimization:** Best sending times 10-11 AM
+2. **Content Personalization:** +35% better engagement
+3. **A/B Testing:** Try different subject lines
+
+**AI Recommendations:**
+• Focus budget on high-converting channels
+• Pause underperforming campaigns  
+• Scale successful campaign formats
+
+Would you like detailed analysis of a specific campaign?</field>
+            <field name="language">en</field>
+            <field name="category">marketing</field>
+            <field name="keywords">best, advertising, channel, campaign, performance, ROI, marketing</field>
+            <field name="priority">90</field>
+            <field name="requires_data">True</field>
+            <field name="quick_actions">[{"text": "Campaign Details", "action": "campaign_details"}, {"text": "Channel Comparison", "action": "compare_channels"}]</field>
+        </record>
+
+        <!-- ============================================
+             RÉPONSES D'AIDE ET SUPPORT
+             ============================================ -->
+
+        <!-- Aide générale multilingue -->
+        <record id="kb_help_general" model="ai.knowledge.base">
+            <field name="question">aide, help, مساعدة, comment ça marche, how does it work</field>
+            <field name="response">🆘 **Guide d'utilisation de l'Assistant IA Marketing**
+
+**Fonctionnalités principales :**
+• **Analyse intelligente** des campagnes marketing
+• **Recommandations AI** personnalisées  
+• **Insights en temps réel** sur vos performances
+• **Support multilingue** (Français, Arabe, Anglais)
+
+**Comment m'utiliser :**
+1. Posez vos questions en langage naturel
+2. Demandez des analyses de campagnes
+3. Obtenez des recommandations d'amélioration
+4. Consultez les métriques en temps réel
+
+**Exemples de questions :**
+• "Quelle est ma meilleure campagne ce mois ?"
+• "Comment améliorer mon taux d'ouverture ?"
+• "Montre-moi les performances par canal"
+
+**Langues supportées :**
+🇫🇷 Français • 🇸🇦 العربية • 🇺🇸 English
+
+Posez-moi n'importe quelle question sur votre marketing !</field>
+            <field name="language">multi</field>
+            <field name="category">help</field>
+            <field name="keywords">aide, help, مساعدة, comment, how, guide, utilisation</field>
+            <field name="priority">80</field>
+            <field name="quick_actions">[{"text": "Exemples de questions", "action": "show_examples"}, {"text": "Fonctionnalités avancées", "action": "advanced_features"}]</field>
+        </record>
+
+        <!-- Réponse par défaut quand rien ne correspond -->
+        <record id="kb_default_response" model="ai.knowledge.base">
+            <field name="question">réponse par défaut</field>
+            <field name="response">Merci pour votre question ! 
+
+Je suis votre assistant IA spécialisé en marketing. Bien que je n'aie pas de réponse spécifique à votre demande, je peux vous aider avec :
+
+🎯 **Mes spécialités :**
+• Analyse des performances de campagnes
+• Recommandations d'optimisation
+• Insights marketing data-driven  
+• Support stratégique multilingue
+
+**Essayez de me demander :**
+• "Analyse mes campagnes actuelles"
+• "Donne-moi des recommandations AI"  
+• "Quels sont mes meilleurs canaux ?"
+
+Comment puis-je mieux vous accompagner dans votre stratégie marketing ?</field>
+            <field name="language">multi</field>
+            <field name="category">general</field>
+            <field name="keywords">défaut, default, général</field>
+            <field name="priority">10</field>
+            <field name="quick_actions">[{"text": "Analyse marketing", "action": "marketing_overview"}, {"text": "Voir les suggestions", "action": "show_suggestions"}]</field>
+        </record>
+
+    </data>
+</odoo>

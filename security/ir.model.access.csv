@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ai_knowledge_base,access_ai_knowledge_base,model_ai_knowledge_base,base.group_user,1,1,1,0
+access_ai_knowledge_base_admin,access_ai_knowledge_base_admin,model_ai_knowledge_base,base.group_system,1,1,1,1
+access_ai_chat_session,access_ai_chat_session,model_ai_chat_session,base.group_user,1,1,1,0
+access_ai_chat_session_admin,access_ai_chat_session_admin,model_ai_chat_session,base.group_system,1,1,1,1
+access_ai_chat_message,access_ai_chat_message,model_ai_chat_message,base.group_user,1,1,1,0
+access_ai_chat_message_admin,access_ai_chat_message_admin,model_ai_chat_message,base.group_system,1,1,1,1

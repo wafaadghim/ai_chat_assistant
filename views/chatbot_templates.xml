@@ -1,0 +1,884 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Template principal du chatbot -->
+    <template id="chatbot_widget_complete" name="AI Chatbot Widget">
+        <div id="ai-chatbot-widget">
+            <!-- CSS intégré -->
+            <style>
+                #ai-chatbot-widget {
+                    position: fixed;
+                    bottom: 20px;
+                    right: 20px;
+                    z-index: 9999;
+                    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+                }
+                
+                .ai-chat-bubble {
+                    width: 60px;
+                    height: 60px;
+                    background: linear-gradient(45deg, #714B67, #875A7B);
+                    border-radius: 50%;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    box-shadow: 0 2px 20px rgba(113, 75, 103, 0.3);
+                    transition: all 0.3s ease;
+                    position: relative;
+                    border: none;
+                }
+                
+                .ai-chat-bubble:hover {
+                    transform: scale(1.1);
+                    box-shadow: 0 4px 25px rgba(113, 75, 103, 0.5);
+                }
+                
+                .ai-chat-bubble::before {
+                    content: '💬';
+                    font-size: 28px;
+                    animation: bounce 2s infinite;
+                }
+                
+                .ai-chat-bubble::after {
+                    content: '';
+                    position: absolute;
+                    bottom: -8px;
+                    right: 15px;
+                    width: 0;
+                    height: 0;
+                    border-left: 12px solid transparent;
+                    border-right: 12px solid transparent;
+                    border-top: 15px solid #714B67;
+                    border-radius: 3px;
+                }
+                
+                @keyframes bounce {
+                    0%, 20%, 50%, 80%, 100% {
+                        transform: translateY(0);
+                    }
+                    40% {
+                        transform: translateY(-3px);
+                    }
+                    60% {
+                        transform: translateY(-2px);
+                    }
+                }
+                
+                .ai-chat-window {
+                    position: absolute;
+                    bottom: 85px;
+                    right: 0;
+                    width: 380px;
+                    height: 550px;
+                    background: white;
+                    border-radius: 16px;
+                    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+                    display: none;
+                    flex-direction: column;
+                    overflow: hidden;
+                    border: 1px solid #e4e6ea;
+                    animation: slideUp 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                }
+                
+                .ai-chat-window::before {
+                    content: '';
+                    position: absolute;
+                    bottom: -12px;
+                    right: 20px;
+                    width: 0;
+                    height: 0;
+                    border-left: 15px solid transparent;
+                    border-right: 15px solid transparent;
+                    border-top: 20px solid white;
+                    z-index: 10;
+                }
+                
+                .ai-chat-window::after {
+                    content: '';
+                    position: absolute;
+                    bottom: -13px;
+                    right: 19px;
+                    width: 0;
+                    height: 0;
+                    border-left: 16px solid transparent;
+                    border-right: 16px solid transparent;
+                    border-top: 21px solid #e4e6ea;
+                    z-index: 9;
+                }
+                
+                @keyframes slideUp {
+                    from {
+                        opacity: 0;
+                        transform: translateY(20px) scale(0.95);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0) scale(1);
+                    }
+                }
+                
+                .ai-chat-header {
+                    background: linear-gradient(45deg, #714B67, #875A7B);
+                    color: white;
+                    padding: 15px 20px;
+                    border-radius: 16px 16px 0 0;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .ai-header-content {
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                }
+                
+                .ai-avatar-container {
+                    width: 40px;
+                    height: 40px;
+                    background: white;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border: 2px solid white;
+                    overflow: hidden;
+                }
+                
+                .ai-avatar-container img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    border-radius: 50%;
+                    transition: transform 0.3s ease;
+                }
+                
+                .ai-avatar-container:hover img {
+                    transform: scale(1.05);
+                }
+                
+                .ai-header-text h4 {
+                    margin: 0;
+                    font-size: 16px;
+                    font-weight: 600;
+                }
+                
+                .ai-status {
+                    font-size: 12px;
+                    opacity: 0.9;
+                }
+                
+                .ai-minimize-btn {
+                    background: none;
+                    border: none;
+                    color: white;
+                    font-size: 18px;
+                    cursor: pointer;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    transition: background-color 0.2s;
+                }
+                
+                .ai-minimize-btn:hover {
+                    background-color: rgba(255, 255, 255, 0.2);
+                }
+                
+                .ai-chat-messages {
+                    flex: 1;
+                    padding: 20px;
+                    overflow-y: auto;
+                    background: #f8f9fa;
+                }
+                
+                .ai-message-container {
+                    display: flex;
+                    align-items: flex-end;
+                    margin-bottom: 12px;
+                    gap: 8px;
+                }
+                
+                .ai-message-container.user {
+                    flex-direction: row-reverse;
+                    justify-content: flex-start;
+                }
+                
+                .ai-message-container.bot {
+                    justify-content: flex-start;
+                }
+                
+                .ai-message-info {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 4px;
+                }
+                
+                .ai-message-container.user .ai-message-info {
+                    align-items: flex-end;
+                }
+                
+                .ai-message-container.bot .ai-message-info {
+                    align-items: flex-start;
+                }
+                
+                .ai-message-name {
+                    font-size: 11px;
+                    color: #666;
+                    font-weight: 500;
+                    margin-bottom: 2px;
+                }
+                
+                .ai-message-avatar {
+                    width: 32px;
+                    height: 32px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-shrink: 0;
+                    border: 2px solid #DEE2E6;
+                    overflow: hidden;
+                    background: white;
+                }
+                
+                .ai-message-avatar img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    border-radius: 50%;
+                    transition: transform 0.2s ease;
+                }
+                
+                .ai-message-avatar:hover img {
+                    transform: scale(1.1);
+                }
+                
+                .ai-message-container.user .ai-message-avatar {
+                    border: 2px solid #714B67;
+                }
+                
+                .ai-message-container.bot .ai-message-avatar {
+                    border: 2px solid #875A7B;
+                }
+                
+                .ai-message {
+                    margin-bottom: 0;
+                    display: flex;
+                    align-items: flex-end;
+                    gap: 8px;
+                }
+                
+                .ai-message.user {
+                    justify-content: flex-end;
+                }
+                
+                .ai-message.bot {
+                    justify-content: flex-start;
+                }
+                
+                .ai-message-bubble {
+                    max-width: 75%;
+                    padding: 12px 16px;
+                    border-radius: 18px;
+                    font-size: 14px;
+                    line-height: 1.4;
+                    word-wrap: break-word;
+                }
+                
+                .ai-message.user .ai-message-bubble {
+                    background: linear-gradient(45deg, #714B67, #875A7B);
+                    color: white;
+                    border-bottom-right-radius: 4px;
+                    margin-left: auto;
+                    position: relative;
+                }
+                
+                .ai-message.user .ai-message-bubble::after {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    right: -8px;
+                    width: 0;
+                    height: 0;
+                    border-top: 8px solid #714B67;
+                    border-right: 8px solid transparent;
+                }
+                
+                .ai-message.bot .ai-message-bubble {
+                    background: #f1f3f4;
+                    color: #1c1e21;
+                    border-bottom-left-radius: 4px;
+                    box-shadow: none;
+                    position: relative;
+                }
+                
+                .ai-message.bot .ai-message-bubble::after {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    left: -8px;
+                    width: 0;
+                    height: 0;
+                    border-top: 8px solid #f1f3f4;
+                    border-left: 8px solid transparent;
+                }
+                
+                .ai-quick-actions {
+                    padding: 12px 20px;
+                    background: #f8f9fa;
+                    border-top: 1px solid #e5e7eb;
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 8px;
+                }
+                
+                .ai-quick-action {
+                    background: white;
+                    border: 1px solid #d1d5db;
+                    color: #374151;
+                    padding: 8px 12px;
+                    border-radius: 16px;
+                    font-size: 12px;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                    font-weight: 500;
+                }
+                
+                .ai-quick-action:hover {
+                    background: linear-gradient(45deg, #714B67, #875A7B);
+                    color: white;
+                    border-color: transparent;
+                    transform: translateY(-1px);
+                }
+                
+                .ai-chat-input-container {
+                    padding: 16px 20px;
+                    background: white;
+                    border-top: 1px solid #e5e7eb;
+                    display: flex;
+                    gap: 12px;
+                    align-items: flex-end;
+                }
+                
+                .ai-chat-input {
+                    flex: 1;
+                    border: 1px solid #d1d5db;
+                    border-radius: 20px;
+                    padding: 12px 16px;
+                    font-size: 14px;
+                    outline: none;
+                    resize: none;
+                    min-height: 20px;
+                    max-height: 120px;
+                    font-family: inherit;
+                    transition: all 0.2s ease;
+                    line-height: 1.5;
+                    word-wrap: break-word;
+                    overflow-y: auto;
+                    white-space: pre-wrap;
+                }
+                
+                .ai-chat-input:focus {
+                    border-color: #714B67;
+                    box-shadow: 0 0 0 3px rgba(113, 75, 103, 0.1);
+                }
+                
+                .ai-chat-send {
+                    background: linear-gradient(45deg, #714B67, #875A7B);
+                    color: white;
+                    border: none;
+                    border-radius: 50%;
+                    width: 40px;
+                    height: 40px;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: all 0.2s ease;
+                    flex-shrink: 0;
+                    align-self: flex-end;
+                }
+                
+                .ai-chat-send:hover {
+                    transform: scale(1.1);
+                    box-shadow: 0 4px 12px rgba(113, 75, 103, 0.4);
+                }
+                
+                .ai-chat-send::before {
+                    content: '➤';
+                    font-size: 16px;
+                    font-weight: bold;
+                }
+                
+                .ai-typing {
+                    padding: 12px 16px;
+                    background: white;
+                    border: 1px solid #e5e7eb;
+                    border-radius: 18px;
+                    border-bottom-left-radius: 6px;
+                    font-size: 14px;
+                    color: #6b7280;
+                    font-style: italic;
+                    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+                }
+                
+                /* Scrollbar personnalisée */
+                .ai-chat-messages::-webkit-scrollbar {
+                    width: 6px;
+                }
+                
+                .ai-chat-messages::-webkit-scrollbar-track {
+                    background: #f1f1f1;
+                    border-radius: 3px;
+                }
+                
+                .ai-chat-messages::-webkit-scrollbar-thumb {
+                    background: #c1c1c1;
+                    border-radius: 3px;
+                }
+                
+                .ai-chat-messages::-webkit-scrollbar-thumb:hover {
+                    background: #a8a8a8;
+                }
+            </style>
+            
+            <!-- Structure HTML -->
+            <div class="ai-chat-bubble" onclick="window.toggleAIChatbot()">
+            </div>
+            
+            <div class="ai-chat-window" id="aiChatWindow">
+                <div class="ai-chat-header">
+                    <div class="ai-header-content">
+                        <div class="ai-avatar-container">
+                            <img src="/ai_chat_assistant/static/src/img/user_avatar.svg" alt="AI Assistant" />
+                        </div>
+                        <div class="ai-header-text">
+                            <h4>AI Assistant</h4>
+                            <span class="ai-status">En ligne</span>
+                        </div>
+                    </div>
+                    <div class="ai-header-actions">
+                        <button class="ai-minimize-btn" onclick="window.closeAIChatbot()" title="Minimize">−</button>
+                    </div>
+                </div>
+                
+                <div class="ai-chat-messages" id="aiChatMessages">
+                    <div class="ai-message-container bot">
+                        <div class="ai-message-info">
+                            <div class="ai-message-name">AI Assistant</div>
+                            <div class="ai-message-avatar">
+                                <img src="/ai_chat_assistant/static/src/img/user_avatar.svg" alt="AI Assistant" />
+                            </div>
+                        </div>
+                        <div class="ai-message bot">
+                            <div class="ai-message-bubble" id="aiWelcomeMessage">
+                                Hello! I am AI Assistant. How can I help you?
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="ai-quick-actions" id="aiQuickActions">
+                    <div class="ai-quick-action" onclick="window.sendAIQuickMessage('📊 Marketing Overview')">📊 Overview</div>
+                    <div class="ai-quick-action" onclick="window.sendAIQuickMessage('📈 Campaign Performance')">📈 Performance</div>
+                </div>
+
+                <div class="ai-chat-input-container">
+                    <textarea 
+                        class="ai-chat-input" 
+                        id="aiChatInput" 
+                        placeholder="Type your message..."
+                        onkeypress="window.handleAIKeyPress(event)"
+                        rows="1"></textarea>
+                    <button class="ai-chat-send" onclick="window.sendAIMessage()"></button>
+                </div>
+            </div>
+            
+            <!-- JavaScript intégré -->
+            <script type="text/javascript">
+                <![CDATA[
+                // Variables globales pour le chatbot
+                window.aiChatbotOpen = false;
+                window.aiSessionId = null;
+                window.aiDetectedLanguage = 'en'; // Langue par défaut : anglais
+                
+                // Détection automatique de la langue sans interface de changement
+                window.detectMessageLanguage = function(message) {
+                    const arabicRegex = /[\u0600-\u06FF]/;
+                    const frenchWords = ['le', 'la', 'les', 'de', 'du', 'des', 'et', 'est', 'une', 'pour', 'avec', 'sur', 'dans', 'bonjour', 'salut', 'comment', 'quel', 'que'];
+                    
+                    if (arabicRegex.test(message)) {
+                        return 'ar';
+                    }
+                    
+                    const lowerMessage = message.toLowerCase();
+                    for (let word of frenchWords) {
+                        if (lowerMessage.includes(word)) {
+                            return 'fr';
+                        }
+                    }
+                    
+                    return 'en'; // Par défaut anglais
+                };
+                
+                window.toggleAIChatbot = function() {
+                    if (window.aiChatbotOpen) {
+                        window.closeAIChatbot();
+                    } else {
+                        window.openAIChatbot();
+                    }
+                };
+                
+                window.openAIChatbot = function() {
+                    const chatWindow = document.getElementById('aiChatWindow');
+                    
+                    if (chatWindow) {
+                        chatWindow.style.display = 'flex';
+                        window.aiChatbotOpen = true;
+                        
+                        // Créer une session réelle si pas encore fait
+                        if (!window.aiSessionId || window.aiSessionId.startsWith('fallback_')) {
+                            window.createAISession();
+                        }
+                        
+                        setTimeout(function() {
+                            const input = document.getElementById('aiChatInput');
+                            if (input) input.focus();
+                        }, 100);
+                    }
+                };
+                
+                window.closeAIChatbot = function() {
+                    const chatWindow = document.getElementById('aiChatWindow');
+                    if (chatWindow) {
+                        chatWindow.style.display = 'none';
+                        window.aiChatbotOpen = false;
+                    }
+                };
+                
+                window.handleAIKeyPress = function(event) {
+                    if (event.key === 'Enter' && !event.shiftKey) {
+                        event.preventDefault();
+                        window.sendAIMessage();
+                    }
+                };
+                
+                window.sendAIMessage = function() {
+                    const input = document.getElementById('aiChatInput');
+                    if (!input) return;
+                    
+                    const message = input.value.trim();
+                    if (!message) return;
+                    
+                    // Détection de la langue
+                    window.aiDetectedLanguage = window.detectMessageLanguage(message);
+                    
+                    window.addAIMessage(message, 'user');
+                    input.value = '';
+                    
+                    // Auto-resize
+                    input.style.height = 'auto';
+                    
+                    window.showAITyping();
+                    window.processAIMessage(message);
+                };
+                
+                window.sendAIQuickMessage = function(message) {
+                    window.addAIMessage(message, 'user');
+                    window.showAITyping();
+                    window.processAIMessage(message);
+                };
+                
+                window.addAIMessage = function(message, type) {
+                    const messagesContainer = document.getElementById('aiChatMessages');
+                    if (!messagesContainer) return;
+                    
+                    const messageContainerDiv = document.createElement('div');
+                    messageContainerDiv.className = 'ai-message-container ' + type;
+                    
+                    // Créer la section d'information avec nom et avatar
+                    const messageInfoDiv = document.createElement('div');
+                    messageInfoDiv.className = 'ai-message-info';
+                    
+                    // Créer le nom d'utilisateur
+                    const nameDiv = document.createElement('div');
+                    nameDiv.className = 'ai-message-name';
+                    nameDiv.textContent = type === 'user' ? 'You' : 'AI Assistant';
+                    
+                    // Créer l'avatar avec l'image appropriée selon le type
+                    const avatarDiv = document.createElement('div');
+                    avatarDiv.className = 'ai-message-avatar';
+                    
+                    const avatarImg = document.createElement('img');
+                    if (type === 'user') {
+                        avatarImg.src = '/ai_chat_assistant/static/src/img/user_avatar.svg';
+                        avatarImg.alt = 'User';
+                    } else {
+                        avatarImg.src = '/ai_chat_assistant/static/src/img/user_avatar.svg';
+                        avatarImg.alt = 'AI Assistant';
+                    }
+                    
+                    avatarDiv.appendChild(avatarImg);
+                    messageInfoDiv.appendChild(nameDiv);
+                    messageInfoDiv.appendChild(avatarDiv);
+                    messageContainerDiv.appendChild(messageInfoDiv);
+                    
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = 'ai-message ' + type;
+                    
+                    const bubble = document.createElement('div');
+                    bubble.className = 'ai-message-bubble';
+                    bubble.innerHTML = message;
+                    
+                    messageDiv.appendChild(bubble);
+                    messageContainerDiv.appendChild(messageDiv);
+                    messagesContainer.appendChild(messageContainerDiv);
+                    
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                };
+                
+                window.processAIMessage = function(message) {
+                    // Appel RPC vers le contrôleur Odoo
+                    if (typeof odoo !== 'undefined' && odoo.session && odoo.session.rpc) {
+                        odoo.session.rpc('/ai_chat/process', 'call', {
+                            message: message,
+                            session_id: window.aiSessionId,
+                            language: window.aiDetectedLanguage
+                        }).then(function(result) {
+                            window.hideAITyping();
+                            
+                            if (result.success) {
+                                window.addAIMessage(result.response, 'bot');
+                                
+                                // Afficher les actions rapides si disponibles
+                                if (result.quick_actions && result.quick_actions.length > 0) {
+                                    window.showQuickActions(result.quick_actions);
+                                }
+                            } else {
+                                window.addAIMessage('Désolé, une erreur est survenue. Veuillez réessayer.', 'bot');
+                            }
+                        }).catch(function(error) {
+                            console.error('Erreur API:', error);
+                            window.hideAITyping();
+                            // Fallback avec réponses statiques
+                            const response = window.getStaticAIResponse(message);
+                            window.addAIMessage(response, 'bot');
+                        });
+                    } else {
+                        // Fallback si Odoo RPC n'est pas disponible
+                        window.hideAITyping();
+                        const response = window.getStaticAIResponse(message);
+                        window.addAIMessage(response, 'bot');
+                    }
+                };
+
+                // Fonction de fallback avec réponses statiques
+                window.getStaticAIResponse = function(message) {
+                    const msg = message.toLowerCase();
+                    const language = window.detectMessageLanguage(message);
+                    
+                    // Réponses multilingues
+                    const responses = {
+                        'ar': {
+                            greeting: '🤖 ممتاز! أنا هنا لتحسين حملاتك التسويقية ومساعدتك في تحليل الأداء. ماذا تريد أن تعرف؟',
+                            overview: '📊 <strong>نظرة عامة على التسويق الشامل</strong><br><br>📈 <strong>الأداء الحالي:</strong><br>• 15 حملة نشطة<br>• متوسط معدل الفتح: 22.5% ⬆️<br>• متوسط معدل النقر: 3.2% ⬆️<br>• العائد الإجمالي: 3.8x 🎯',
+                            performance: '📈 <strong>تحليل مفصل للحملات</strong><br><br>🥇 <strong>أداء ممتاز:</strong><br>• نشرة نوفمبر: 28% فتح، 4.2% نقر<br>• عرض الجمعة السوداء: 31% فتح، 5.1% نقر<br><br>⚠️ <strong>يحتاج تحسين:</strong><br>• البريد الإلكتروني للمنتج X: 12% فتح',
+                            default: '🤖 سؤال ممتاز! يمكنني مساعدتك في:<br><br>📊 <strong>التحليلات:</strong> مقاييس مفصلة<br>📈 <strong>الأداء:</strong> تقارير الحملات<br>🎯 <strong>النظرة العامة:</strong> ملخص شامل<br><br>ما الذي تريد استكشافه؟'
+                        },
+                        'fr': {
+                            greeting: '🤖 Parfait ! Je suis là pour optimiser vos campagnes marketing et analyser vos performances. Que voulez-vous savoir ?',
+                            overview: '📊 <strong>Aperçu Marketing Global</strong><br><br>📈 <strong>Performances actuelles :</strong><br>• 15 campagnes actives<br>• Taux d\'ouverture moyen : 22.5% ⬆️<br>• Taux de clic moyen : 3.2% ⬆️<br>• ROI global : 3.8x 🎯',
+                            performance: '📈 <strong>Analyse Détaillée des Campagnes</strong><br><br>🥇 <strong>Excellentes performances :</strong><br>• Newsletter Novembre : 28% ouverture, 4.2% clic<br>• Promo Black Friday : 31% ouverture, 5.1% clic<br><br>⚠️ <strong>Nécessite optimisation :</strong><br>• Email Produit X : 12% ouverture',
+                            default: '🤖 Excellente question ! Je peux vous accompagner sur :<br><br>📊 <strong>Analytics :</strong> Métriques détaillées<br>📈 <strong>Performance :</strong> Rapports de campagnes<br>🎯 <strong>Aperçu :</strong> Vue d\'ensemble<br><br>Que souhaitez-vous explorer ?'
+                        },
+                        'en': {
+                            greeting: '🤖 Perfect! I\'m here to optimize your marketing campaigns and analyze performance. What would you like to know?',
+                            overview: '📊 <strong>Global Marketing Overview</strong><br><br>📈 <strong>Current Performance:</strong><br>• 15 active campaigns<br>• Average open rate: 22.5% ⬆️<br>• Average click rate: 3.2% ⬆️<br>• Global ROI: 3.8x 🎯',
+                            performance: '📈 <strong>Detailed Campaign Analysis</strong><br><br>🥇 <strong>Excellent performance:</strong><br>• November Newsletter: 28% open, 4.2% click<br>• Black Friday Promo: 31% open, 5.1% click<br><br>⚠️ <strong>Needs optimization:</strong><br>• Product X Email: 12% open',
+                            default: '🤖 Excellent question! I can help you with:<br><br>📊 <strong>Analytics:</strong> Detailed metrics<br>📈 <strong>Performance:</strong> Campaign reports<br>🎯 <strong>Overview:</strong> Global summary<br><br>What would you like to explore?'
+                        }
+                    };
+                    
+                    const lang = responses[language] || responses['en'];
+                    
+                    if (msg.includes('hello') || msg.includes('hi') || msg.includes('bonjour') || msg.includes('salut') || msg.includes('مرحبا') || msg.includes('السلام')) {
+                        return lang.greeting;
+                    }
+                    
+                    if (msg.includes('aperçu') || msg.includes('overview') || msg.includes('نظرة')) {
+                        return lang.overview;
+                    }
+                    
+                    if (msg.includes('performance') || msg.includes('campagne') || msg.includes('campaign') || msg.includes('أداء') || msg.includes('حملة')) {
+                        return lang.performance;
+                    }
+                    
+                    return lang.default;
+                };
+
+                // Fonction pour créer une vraie session
+                window.createAISession = function() {
+                    if (typeof odoo !== 'undefined' && odoo.session && odoo.session.rpc) {
+                        odoo.session.rpc('/ai_chat/session/create', 'call', {})
+                            .then(function(result) {
+                                if (result.success) {
+                                    window.aiSessionId = result.session_id;
+                                    
+                                    // Mettre à jour le message de bienvenue
+                                    const welcomeElement = document.getElementById('aiWelcomeMessage');
+                                    if (welcomeElement && result.welcome_message) {
+                                        welcomeElement.innerHTML = result.welcome_message;
+                                    }
+                                    
+                                    console.log('Session créée:', window.aiSessionId);
+                                }
+                            })
+                            .catch(function(error) {
+                                console.error('Erreur création session:', error);
+                                window.aiSessionId = 'fallback_' + Date.now();
+                            });
+                    } else {
+                        // Fallback si Odoo RPC n'est pas disponible
+                        window.aiSessionId = 'fallback_' + Date.now();
+                        console.log('Session fallback créée:', window.aiSessionId);
+                    }
+                };
+
+                // Fonction pour les actions rapides
+                window.executeQuickAction = function(actionType) {
+                    if (typeof odoo !== 'undefined' && odoo.session && odoo.session.rpc) {
+                        odoo.session.rpc('/ai_chat/quick_action', 'call', {
+                            action: actionType
+                        }).then(function(result) {
+                            if (result.success) {
+                                window.addAIMessage(result.response, 'bot');
+                            } else {
+                                window.addAIMessage('Action non disponible actuellement.', 'bot');
+                            }
+                        }).catch(function(error) {
+                            console.error('Erreur action rapide:', error);
+                            window.addAIMessage('Erreur lors de l\'exécution de l\'action.', 'bot');
+                        });
+                    } else {
+                        // Fallback statique
+                        const responses = {
+                            'marketing_overview': window.getStaticAIResponse('overview'),
+                            'view_campaigns': window.getStaticAIResponse('performance')
+                        };
+                        const response = responses[actionType] || 'Action non reconnue.';
+                        window.addAIMessage(response, 'bot');
+                    }
+                };
+
+                // Fonction pour afficher les actions rapides
+                window.showQuickActions = function(actions) {
+                    const messagesContainer = document.getElementById('aiChatMessages');
+                    if (!messagesContainer || !actions.length) return;
+                    
+                    const actionsDiv = document.createElement('div');
+                    actionsDiv.className = 'ai-quick-actions-inline';
+                    actionsDiv.style.cssText = 'display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; padding: 12px; background: #f8f9fa; border-radius: 12px; border: 1px solid #e9ecef;';
+                    
+                    actions.forEach(function(action) {
+                        const actionBtn = document.createElement('button');
+                        actionBtn.textContent = action.text;
+                        actionBtn.onclick = function() {
+                            window.executeQuickAction(action.action);
+                            actionsDiv.remove();
+                        };
+                        actionBtn.style.cssText = 'background: linear-gradient(45deg, #714B67, #875A7B); color: white; border: none; padding: 8px 12px; border-radius: 16px; font-size: 12px; cursor: pointer; transition: all 0.2s ease;';
+                        actionBtn.onmouseover = function() { this.style.transform = 'scale(1.05)'; };
+                        actionBtn.onmouseout = function() { this.style.transform = 'scale(1)'; };
+                        
+                        actionsDiv.appendChild(actionBtn);
+                    });
+                    
+                    messagesContainer.appendChild(actionsDiv);
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                };
+                
+                window.showAITyping = function() {
+                    const messagesContainer = document.getElementById('aiChatMessages');
+                    if (!messagesContainer) return;
+                    
+                    const typingMessages = {
+                        'ar': 'مساعد الذكاء الاصطناعي يكتب...',
+                        'fr': 'Assistant IA tape...',
+                        'en': 'AI Assistant typing...'
+                    };
+                    
+                    const typingDiv = document.createElement('div');
+                    typingDiv.className = 'ai-message bot';
+                    typingDiv.id = 'ai-typing-indicator';
+                    
+                    const bubble = document.createElement('div');
+                    bubble.className = 'ai-typing';
+                    bubble.innerHTML = typingMessages[window.aiDetectedLanguage] || typingMessages['en'];
+                    
+                    typingDiv.appendChild(bubble);
+                    messagesContainer.appendChild(typingDiv);
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                };
+                
+                window.hideAITyping = function() {
+                    const typing = document.getElementById('ai-typing-indicator');
+                    if (typing) {
+                        typing.remove();
+                    }
+                };
+                
+                // Auto-resize textarea
+                document.addEventListener('DOMContentLoaded', function() {
+                    const textarea = document.getElementById('aiChatInput');
+                    if (textarea) {
+                        function autoResize() {
+                            textarea.style.height = 'auto';
+                            
+                            const scrollHeight = textarea.scrollHeight;
+                            const maxHeight = 120;
+                            const minHeight = 20;
+                            
+                            if (scrollHeight > maxHeight) {
+                                textarea.style.height = maxHeight + 'px';
+                                textarea.style.overflowY = 'auto';
+                            } else if (scrollHeight < minHeight) {
+                                textarea.style.height = minHeight + 'px';
+                                textarea.style.overflowY = 'hidden';
+                            } else {
+                                textarea.style.height = scrollHeight + 'px';
+                                textarea.style.overflowY = 'hidden';
+                            }
+                        }
+                        
+                        textarea.addEventListener('input', autoResize);
+                        autoResize();
+                        
+                        textarea.addEventListener('keydown', function(event) {
+                            if (event.key === 'Enter' && !event.shiftKey) {
+                                event.preventDefault();
+                                window.sendAIMessage();
+                            }
+                        });
+                        
+                        textarea.addEventListener('keyup', function() {
+                            setTimeout(autoResize, 0);
+                        });
+                    }
+                });
+                
+                console.log('AI Chat Assistant Loaded Successfully!');
+                ]]>
+            </script>
+        </div>
+    </template>
+    
+    <!-- Injection du chatbot dans l'interface web -->
+    <template id="inject_chatbot" inherit_id="web.layout" name="Inject AI Chatbot">
+        <xpath expr="//body" position="inside">
+            <t t-call="ai_chat_assistant.chatbot_widget_complete"/>
+        </xpath>
+    </template>
+
+</odoo>

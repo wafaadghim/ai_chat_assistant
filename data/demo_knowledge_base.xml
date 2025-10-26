@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Demo data for AI Knowledge Base -->
+    
+    <!-- Keywords -->
+    <record id="keyword_hello" model="ai.knowledge.keyword">
+        <field name="name">hello</field>
+    </record>
+    <record id="keyword_marhaba" model="ai.knowledge.keyword">
+        <field name="name">مرحبا</field>
+    </record>
+    <record id="keyword_help" model="ai.knowledge.keyword">
+        <field name="name">help</field>
+    </record>
+    <record id="keyword_marketing" model="ai.knowledge.keyword">
+        <field name="name">marketing</field>
+    </record>
+    <record id="keyword_campaigns" model="ai.knowledge.keyword">
+        <field name="name">campaigns</field>
+    </record>
+    <record id="keyword_analytics" model="ai.knowledge.keyword">
+        <field name="name">analytics</field>
+    </record>
+
+    <!-- Knowledge Base Entries -->
+    <record id="kb_greeting_multi" model="ai.knowledge.base">
+        <field name="question">Hello, Hi, Bonjour, مرحبا</field>
+        <field name="answer"><![CDATA[
+            <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+                <p>🤖 <strong>Welcome to the AI Marketing Assistant!</strong></p>
+                <p>I'm here to help you optimize your marketing campaigns and analyze performance data.</p>
+                <br/>
+                <p><strong>I can assist you with:</strong></p>
+                <ul>
+                    <li>📊 <strong>Analytics:</strong> Detailed metrics and KPIs analysis</li>
+                    <li>💡 <strong>Optimization:</strong> Personalized recommendations</li>
+                    <li>🎯 <strong>Strategy:</strong> Expert marketing advice</li>
+                    <li>🔧 <strong>Techniques:</strong> A/B testing and segmentation</li>
+                </ul>
+                <br/>
+                <p>What would you like to explore first?</p>
+            </div>
+        ]]></field>
+        <field name="category">general</field>
+        <field name="language">multi</field>
+        <field name="priority">10</field>
+        <field name="keywords" eval="[(6, 0, [ref('keyword_hello')])]"/>
+    </record>
+
+    <record id="kb_marketing_overview" model="ai.knowledge.base">
+        <field name="question">marketing overview, aperçu marketing, نظرة عامة التسويق</field>
+        <field name="answer"><![CDATA[
+            <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+                <h3>📊 <strong>Global Marketing Overview</strong></h3>
+                <br/>
+                <p><strong>📈 Current Performance:</strong></p>
+                <ul>
+                    <li>• 15 active campaigns</li>
+                    <li>• Average open rate: 22.5% ⬆️</li>
+                    <li>• Average click rate: 3.2% ⬆️</li>
+                    <li>• Global ROI: 3.8x 🎯</li>
+                </ul>
+                <br/>
+                <p><strong>🏆 Top Performers:</strong></p>
+                <ol>
+                    <li>Newsletter November - 28% opening rate</li>
+                    <li>Black Friday Promo - 31% opening rate</li>
+                    <li>Cart Abandonment - 19% opening rate</li>
+                </ol>
+                <br/>
+                <p><strong>💡 Trend:</strong> +12% compared to last month!</p>
+            </div>
+        ]]></field>
+        <field name="category">marketing</field>
+        <field name="language">multi</field>
+        <field name="priority">9</field>
+        <field name="keywords" eval="[(6, 0, [ref('keyword_marketing')])]"/>
+    </record>
+
+    <record id="kb_campaign_help" model="ai.knowledge.base">
+        <field name="question">campaigns, campagnes, help with campaigns</field>
+        <field name="answer"><![CDATA[
+            <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+                <h3>🎯 <strong>Campaign Management Help</strong></h3>
+                <br/>
+                <p><strong>📧 Email Campaign Tips:</strong></p>
+                <ul>
+                    <li>• Use A/B testing for subject lines</li>
+                    <li>• Segment your audience for better targeting</li>
+                    <li>• Optimize send times based on audience behavior</li>
+                    <li>• Include clear call-to-action buttons</li>
+                </ul>
+                <br/>
+                <p><strong>📊 Key Metrics to Monitor:</strong></p>
+                <ul>
+                    <li>• Open Rate (Industry average: 20-25%)</li>
+                    <li>• Click-through Rate (Industry average: 2-5%)</li>
+                    <li>• Conversion Rate</li>
+                    <li>• Unsubscribe Rate (&lt;2% is healthy)</li>
+                </ul>
+                <br/>
+                <p><strong>🚀 Best Practices:</strong></p>
+                <ul>
+                    <li>• Mobile-first design approach</li>
+                    <li>• Personalization in subject lines</li>
+                    <li>• Regular list cleaning</li>
+                    <li>• Automated welcome sequences</li>
+                </ul>
+            </div>
+        ]]></field>
+        <field name="category">campaigns</field>
+        <field name="language">multi</field>
+        <field name="priority">8</field>
+        <field name="keywords" eval="[(6, 0, [ref('keyword_campaigns'), ref('keyword_help')])]"/>
+    </record>
+
+    <record id="kb_analytics_help" model="ai.knowledge.base">
+        <field name="question">analytics, métriques, تحليلات, performance analysis</field>
+        <field name="answer"><![CDATA[
+            <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+                <h3>📈 <strong>Analytics & Performance Analysis</strong></h3>
+                <br/>
+                <p><strong>📊 Essential Marketing Metrics:</strong></p>
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0;">
+                    <p><strong>Email Marketing:</strong></p>
+                    <ul>
+                        <li>• Delivery Rate: 95%+ (excellent)</li>
+                        <li>• Open Rate: 20-25% (industry standard)</li>
+                        <li>• Click Rate: 2-5% (good performance)</li>
+                        <li>• Conversion Rate: 1-3% (varies by industry)</li>
+                    </ul>
+                </div>
+                <br/>
+                <p><strong>🎯 ROI Calculation:</strong></p>
+                <div style="background: #e7f3ff; padding: 15px; border-radius: 8px; margin: 10px 0;">
+                    <p><code>ROI = (Revenue - Cost) / Cost * 100%</code></p>
+                    <p><em>A good email marketing ROI is typically 4:1 or 400%</em></p>
+                </div>
+                <br/>
+                <p><strong>📱 Engagement Insights:</strong></p>
+                <ul>
+                    <li>• Mobile opens: 60-70% of total opens</li>
+                    <li>• Best send times: Tuesday-Thursday, 10AM-2PM</li>
+                    <li>• Subject line length: 30-50 characters optimal</li>
+                    <li>• Personalized emails: 29% higher open rates</li>
+                </ul>
+            </div>
+        ]]></field>
+        <field name="category">analytics</field>
+        <field name="language">multi</field>
+        <field name="priority">8</field>
+        <field name="keywords" eval="[(6, 0, [ref('keyword_analytics')])]"/>
+    </record>
+
+    <!-- Arabic specific entry -->
+    <record id="kb_arabic_greeting" model="ai.knowledge.base">
+        <field name="question">مرحبا، السلام عليكم، أهلا</field>
+        <field name="answer"><![CDATA[
+            <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; direction: rtl; text-align: right;">
+                <h3>🤖 <strong>أهلاً بك في مساعد التسويق الذكي!</strong></h3>
+                <br/>
+                <p>أنا هنا لمساعدتك في تحسين حملاتك التسويقية وتحليل بيانات الأداء.</p>
+                <br/>
+                <p><strong>يمكنني مساعدتك في:</strong></p>
+                <ul style="text-align: right;">
+                    <li>📊 <strong>التحليلات:</strong> مقاييس مفصلة وتحليل مؤشرات الأداء الرئيسية</li>
+                    <li>💡 <strong>التحسين:</strong> توصيات مخصصة</li>
+                    <li>🎯 <strong>الاستراتيجية:</strong> نصائح تسويقية متخصصة</li>
+                    <li>🔧 <strong>التقنيات:</strong> اختبار A/B والتقسيم</li>
+                </ul>
+                <br/>
+                <p>ما الذي تود استكشافه أولاً؟</p>
+            </div>
+        ]]></field>
+        <field name="category">general</field>
+        <field name="language">ar</field>
+        <field name="priority">10</field>
+        <field name="keywords" eval="[(6, 0, [ref('keyword_marhaba')])]"/>
+    </record>
+
+</odoo>

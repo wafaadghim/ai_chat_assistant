@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="20" cy="20" r="20" fill="url(#aiGradient)"/>
+  
+  <!-- Robot head -->
+  <rect x="12" y="12" width="16" height="14" rx="2" fill="white"/>
+  
+  <!-- Robot antennae -->
+  <circle cx="16" cy="10" r="1.5" fill="white"/>
+  <circle cx="24" cy="10" r="1.5" fill="white"/>
+  <line x1="16" y1="11.5" x2="16" y2="12" stroke="white" stroke-width="1"/>
+  <line x1="24" y1="11.5" x2="24" y2="12" stroke="white" stroke-width="1"/>
+  
+  <!-- Robot eyes -->
+  <circle cx="16" cy="17" r="2" fill="#875A7B"/>
+  <circle cx="24" cy="17" r="2" fill="#875A7B"/>
+  
+  <!-- Robot mouth -->
+  <rect x="17" y="22" width="6" height="1.5" rx="0.75" fill="#875A7B"/>
+  
+  <!-- Gradient definition -->
+  <defs>
+    <linearGradient id="aiGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#875A7B;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#A866C7;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+</svg>

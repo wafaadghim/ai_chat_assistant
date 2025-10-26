@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    
+    <!-- Mots-clés de base -->
+    <record id="keyword_marketing" model="ai.knowledge.keyword">
+        <field name="name">marketing</field>
+    </record>
+    
+    <record id="keyword_campaign" model="ai.knowledge.keyword">
+        <field name="name">campaign</field>
+    </record>
+    
+    <record id="keyword_analytics" model="ai.knowledge.keyword">
+        <field name="name">analytics</field>
+    </record>
+    
+    <record id="keyword_performance" model="ai.knowledge.keyword">
+        <field name="name">performance</field>
+    </record>
+    
+    <!-- Questions/Réponses en Arabe -->
+    <record id="kb_welcome_ar" model="ai.knowledge.base">
+        <field name="question">مرحبا</field>
+        <field name="answer"><![CDATA[
+            <p>🤖 مرحباً بك في مساعد الذكاء الاصطناعي للتسويق!</p>
+            <p><strong>يمكنني مساعدتك في:</strong></p>
+            <ul>
+                <li>📊 تحليل أداء الحملات التسويقية</li>
+                <li>💡 تقديم توصيات التحسين</li>
+                <li>📈 عرض المقاييس والإحصائيات</li>
+                <li>🎯 تحسين استراتيجيات التسويق</li>
+            </ul>
+            <p><em>اسأل أي سؤال أو اطلب تحليل حملاتك!</em></p>
+        ]]></field>
+        <field name="category">general</field>
+        <field name="language">ar</field>
+        <field name="priority">10</field>
+        <field name="keywords" eval="[(6, 0, [ref('keyword_marketing')])]"/>
+    </record>
+    
+    <record id="kb_campaigns_analysis_ar" model="ai.knowledge.base">
+        <field name="question">تحليل الحملات</field>
+        <field name="answer"><![CDATA[
+            <p>📊 <strong>تحليل الحملات التسويقية</strong></p>
+            <p>لعرض تحليل مفصل لحملاتك:</p>
+            <ol>
+                <li>🔍 مراجعة معدلات الفتح والنقر</li>
+                <li>📈 تتبع معدلات التحويل</li>
+                <li>💰 حساب العائد على الاستثمار</li>
+                <li>🎯 تحديد الجمهور الأكثر تفاعلاً</li>
+            </ol>
+            <p><strong>توصياتي:</strong></p>
+            <ul>
+                <li>⚡ أوقف الحملات ذات الأداء الضعيف</li>
+                <li>📊 زد الميزانية للحملات الناجحة</li>
+                <li>🔄 اختبر عناوين وأوقات مختلفة</li>
+            </ul>
+        ]]></field>
+        <field name="category">analytics</field>
+        <field name="language">ar</field>
+        <field name="priority">9</field>
+        <field name="keywords" eval="[(6, 0, [ref('keyword_campaign'), ref('keyword_analytics')])]"/>
+    </record>
+    
+    <!-- Questions/Réponses en Français -->
+    <record id="kb_welcome_fr" model="ai.knowledge.base">
+        <field name="question">bonjour</field>
+        <field name="answer"><![CDATA[
+            <p>🤖 Bonjour ! Je suis votre Assistant IA Marketing !</p>
+            <p><strong>Je peux vous aider avec :</strong></p>
+            <ul>
+                <li>📊 Analyse des performances de campagnes</li>
+                <li>💡 Recommandations d'optimisation</li>
+                <li>📈 Métriques et statistiques détaillées</li>
+                <li>🎯 Stratégies marketing avancées</li>
+            </ul>
+            <p><em>Posez-moi vos questions marketing ou demandez une analyse !</em></p>
+        ]]></field>
+        <field name="category">general</field>
+        <field name="language">fr</field>
+        <field name="priority">10</field>
+        <field name="keywords" eval="[(6, 0, [ref('keyword_marketing')])]"/>
+    </record>
+    
+    <record id="kb_performance_fr" model="ai.knowledge.base">
+        <field name="question">performance campagne</field>
+        <field name="answer"><![CDATA[
+            <p>📈 <strong>Analyse de Performance des Campagnes</strong></p>
+            <p>Pour évaluer vos campagnes efficacement :</p>
+            <ol>
+                <li>📧 <strong>Taux d'ouverture :</strong> Objectif 20-25%</li>
+                <li>👆 <strong>Taux de clic :</strong> Objectif 2-5%</li>
+                <li>💰 <strong>Taux de conversion :</strong> Objectif 1-3%</li>
+                <li>📊 <strong>ROI :</strong> Minimum 3:1</li>
+            </ol>
+            <p><strong>🎯 Recommandations :</strong></p>
+            <ul>
+                <li>✅ Segmentez votre audience pour plus de personnalisation</li>
+                <li>📝 Testez différents objets d'email</li>
+                <li>⏰ Optimisez les heures d'envoi</li>
+                <li>📱 Assurez-vous de la compatibilité mobile</li>
+            </ul>
+        ]]></field>
+        <field name="category">analytics</field>
+        <field name="language">fr</field>
+        <field name="priority">9</field>
+        <field name="keywords" eval="[(6, 0, [ref('keyword_performance'), ref('keyword_analytics')])]"/>
+    </record>
+    
+    <!-- Questions/Réponses en Anglais -->
+    <record id="kb_welcome_en" model="ai.knowledge.base">
+        <field name="question">hello</field>
+        <field name="answer"><![CDATA[
+            <p>🤖 Hello! I'm your AI Marketing Assistant!</p>
+            <p><strong>I can help you with:</strong></p>
+            <ul>
+                <li>📊 Campaign performance analysis</li>
+                <li>💡 Optimization recommendations</li>
+                <li>📈 Detailed metrics and statistics</li>
+                <li>🎯 Advanced marketing strategies</li>
+            </ul>
+            <p><em>Ask me any marketing questions or request an analysis!</em></p>
+        ]]></field>
+        <field name="category">general</field>
+        <field name="language">en</field>
+        <field name="priority">10</field>
+        <field name="keywords" eval="[(6, 0, [ref('keyword_marketing')])]"/>
+    </record>
+    
+    <record id="kb_optimization_en" model="ai.knowledge.base">
+        <field name="question">optimization tips</field>
+        <field name="answer"><![CDATA[
+            <p>🚀 <strong>Marketing Optimization Tips</strong></p>
+            <p><strong>📧 Email Marketing:</strong></p>
+            <ul>
+                <li>🎯 Personalize subject lines with recipient names</li>
+                <li>📱 Ensure mobile-responsive design</li>
+                <li>⏰ Send at optimal times (Tuesday-Thursday, 10-11 AM)</li>
+                <li>🔄 A/B test different elements</li>
+            </ul>
+            <p><strong>📊 Performance Tracking:</strong></p>
+            <ul>
+                <li>📈 Monitor open rates (aim for 20%+)</li>
+                <li>👆 Track click-through rates (aim for 3%+)</li>
+                <li>💰 Calculate ROI for each campaign</li>
+                <li>🎯 Segment audiences for better targeting</li>
+            </ul>
+            <p><em>💡 Pro tip: Focus on quality over quantity!</em></p>
+        ]]></field>
+        <field name="category">recommendations</field>
+        <field name="language">en</field>
+        <field name="priority">8</field>
+        <field name="keywords" eval="[(6, 0, [ref('keyword_performance'), ref('keyword_marketing')])]"/>
+    </record>
+    
+    <!-- Questions Multilingues -->
+    <record id="kb_ai_recommendations" model="ai.knowledge.base">
+        <field name="question">توصيات الذكاء الاصطناعي</field>
+        <field name="answer"><![CDATA[
+            <p>🤖 <strong>توصيات الذكاء الاصطناعي للتسويق</strong></p>
+            <p>بناءً على تحليل البيانات، إليك أهم التوصيات:</p>
+            <ol>
+                <li>⚠️ <strong>أوقف حملة X :</strong> التكلفة مرتفعة والعائد ضعيف (ROI: 1.2)</li>
+                <li>📈 <strong>ارفع ميزانية Instagram :</strong> معدل التحويل أعلى بـ 35%</li>
+                <li>🎯 <strong>استهدف الفئة العمرية 25-35 :</strong> أعلى معدل تفاعل</li>
+                <li>📧 <strong>حسّن عناوين البريد :</strong> زيادة محتملة 15% في معدل الفتح</li>
+            </ol>
+            <p><strong>🔍 تحليل متقدم:</strong></p>
+            <ul>
+                <li>💰 أفضل قناة: Instagram (ROI: 4.2)</li>
+                <li>⏰ أفضل وقت إرسال: الثلاثاء 10 صباحاً</li>
+                <li>🎭 أفضل نوع محتوى: الفيديوهات القصيرة</li>
+            </ul>
+        ]]></field>
+        <field name="category">recommendations</field>
+        <field name="language">multi</field>
+        <field name="priority">10</field>
+        <field name="keywords" eval="[(6, 0, [ref('keyword_marketing'), ref('keyword_analytics')])]"/>
+    </record>
+
+</odoo>
