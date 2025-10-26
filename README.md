@@ -57,6 +57,14 @@ python ai_chat_assistant/main.py
 - **history**: Afficher l'historique de la conversation
 - **clear**: Effacer l'historique de la conversation
 
+### Exemples d'utilisation
+
+Vous pouvez exécuter les exemples fournis pour voir le chatbot en action:
+
+```bash
+python examples.py
+```
+
 ### Utilisation dans votre code
 
 Vous pouvez également utiliser le chatbot dans votre propre code Python:
