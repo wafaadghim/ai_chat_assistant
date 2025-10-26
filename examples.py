@@ -53,8 +53,11 @@ def example_conversation_storage():
     print("Example 3: Conversation Storage")
     print("=" * 60)
     
-    # Create a conversation manager
-    conversation = Conversation(storage_path="/tmp/example_conversations.json")
+    # Create a conversation manager with portable path
+    import tempfile
+    import os
+    storage_path = os.path.join(tempfile.gettempdir(), "example_conversations.json")
+    conversation = Conversation(storage_path=storage_path)
     
     # Create and save a conversation
     bot = ChatBot(name="Assistant")
