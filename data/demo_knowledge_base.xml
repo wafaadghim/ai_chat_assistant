@@ -4,22 +4,22 @@
     
     <!-- Keywords -->
     <record id="keyword_hello" model="ai.knowledge.keyword">
-        <field name="name">hello</field>
+        <field name="keyword">hello</field>
     </record>
     <record id="keyword_marhaba" model="ai.knowledge.keyword">
-        <field name="name">مرحبا</field>
+        <field name="keyword">مرحبا</field>
     </record>
     <record id="keyword_help" model="ai.knowledge.keyword">
-        <field name="name">help</field>
+        <field name="keyword">help</field>
     </record>
     <record id="keyword_marketing" model="ai.knowledge.keyword">
-        <field name="name">marketing</field>
+        <field name="keyword">marketing</field>
     </record>
     <record id="keyword_campaigns" model="ai.knowledge.keyword">
-        <field name="name">campaigns</field>
+        <field name="keyword">campaigns</field>
     </record>
     <record id="keyword_analytics" model="ai.knowledge.keyword">
-        <field name="name">analytics</field>
+        <field name="keyword">analytics</field>
     </record>
 
     <!-- Knowledge Base Entries -->

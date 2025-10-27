@@ -178,4 +178,231 @@
         <field name="keywords" eval="[(6, 0, [ref('keyword_marketing'), ref('keyword_analytics')])]"/>
     </record>
 
+    <!-- Entrées spécifiques détaillées en Arabe -->
+    <record id="kb_roi_analysis_ar" model="ai.knowledge.base">
+        <field name="question">تحليل العائد على الاستثمار</field>
+        <field name="answer"><![CDATA[
+            <p>💰 <strong>تحليل العائد على الاستثمار (ROI)</strong></p>
+            <p><strong>📊 بياناتك الحالية:</strong></p>
+            <ul>
+                <li>إجمالي الإنفاق: {total_spent:,.0f} دولار</li>
+                <li>إجمالي الإيرادات: {total_revenue:,.0f} دولار</li>
+                <li>العائد على الاستثمار: {roi:.1f}%</li>
+            </ul>
+            <p><strong>💡 التوصيات المحددة:</strong></p>
+            <ol>
+                <li>🔴 أوقف الحملات ذات العائد أقل من 200%</li>
+                <li>🟢 ضاعف الاستثمار في الحملات ذات العائد أكثر من 400%</li>
+                <li>🟡 راجع الحملات ذات العائد بين 200-400%</li>
+            </ol>
+        ]]></field>
+        <field name="category">analytics</field>
+        <field name="language">ar</field>
+        <field name="priority">9</field>
+    </record>
+
+    <record id="kb_email_optimization_ar" model="ai.knowledge.base">
+        <field name="question">تحسين البريد الإلكتروني</field>
+        <field name="answer"><![CDATA[
+            <p>📧 <strong>إرشادات تحسين البريد الإلكتروني</strong></p>
+            <p><strong>🎯 عناوين أكثر فعالية:</strong></p>
+            <ul>
+                <li>✅ استخدم أرقام محددة: "اكتشف 5 أسرار..."</li>
+                <li>✅ أضف عنصر الإلحاح: "عرض لمدة 24 ساعة فقط"</li>
+                <li>✅ اجعله شخصياً: "[الاسم]، هذا خاص بك"</li>
+                <li>❌ تجنب كلمات السبام: "مجاني، فوري، اربح"</li>
+            </ul>
+            <p><strong>📈 أفضل الأوقات للإرسال:</strong></p>
+            <ul>
+                <li>🥇 الثلاثاء 10:00 صباحاً (معدل فتح: 28%)</li>
+                <li>🥈 الأربعاء 14:00 بعد الظهر (معدل فتح: 25%)</li>
+                <li>🥉 الخميس 11:00 صباحاً (معدل فتح: 23%)</li>
+            </ul>
+        ]]></field>
+        <field name="category">recommendations</field>
+        <field name="language">ar</field>
+        <field name="priority">8</field>
+    </record>
+
+    <!-- Entrées spécifiques détaillées en Français -->
+    <record id="kb_campaign_setup_fr" model="ai.knowledge.base">
+        <field name="question">créer une campagne</field>
+        <field name="answer"><![CDATA[
+            <p>🚀 <strong>Guide de création de campagne marketing</strong></p>
+            <p><strong>📋 Étapes essentielles :</strong></p>
+            <ol>
+                <li><strong>Définir l'objectif :</strong> Conversion, notoriété, ou engagement</li>
+                <li><strong>Segmenter l'audience :</strong> Âge, localisation, intérêts</li>
+                <li><strong>Créer le contenu :</strong> Visuels + texte accrocheur</li>
+                <li><strong>Choisir les canaux :</strong> Email, social media, display</li>
+                <li><strong>Définir le budget :</strong> Répartition par canal</li>
+                <li><strong>Programmer l'envoi :</strong> Date et heure optimales</li>
+            </ol>
+            <p><strong>✅ Checklist avant lancement :</strong></p>
+            <ul>
+                <li>□ Tests sur différents appareils</li>
+                <li>□ Vérification des liens</li>
+                <li>□ Configuration du tracking</li>
+                <li>□ Plan de suivi post-lancement</li>
+            </ul>
+        ]]></field>
+        <field name="category">campaigns</field>
+        <field name="language">fr</field>
+        <field name="priority">9</field>
+    </record>
+
+    <record id="kb_analytics_dashboard_fr" model="ai.knowledge.base">
+        <field name="question">tableau de bord analytique</field>
+        <field name="answer"><![CDATA[
+            <p>📊 <strong>Votre Tableau de Bord Analytics</strong></p>
+            <p><strong>🎯 Métriques Clés (30 derniers jours) :</strong></p>
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+                    <td><strong>Campagnes Actives:</strong></td>
+                    <td>{active_campaigns} campagnes</td>
+                </tr>
+                <tr>
+                    <td><strong>Emails Envoyés:</strong></td>
+                    <td>{total_sent:,} emails</td>
+                </tr>
+                <tr>
+                    <td><strong>Taux d'Ouverture:</strong></td>
+                    <td>{avg_open_rate:.1f}% (Objectif: 20%)</td>
+                </tr>
+                <tr>
+                    <td><strong>Taux de Clic:</strong></td>
+                    <td>{avg_click_rate:.1f}% (Objectif: 3%)</td>
+                </tr>
+            </table>
+            <p><strong>📈 Tendances :</strong></p>
+            <ul>
+                <li>🟢 Performance en hausse : Campagne Instagram (+15%)</li>
+                <li>🟡 À surveiller : Newsletter mensuelle (-3%)</li>
+                <li>🔴 Action requise : Campagne promo (-12%)</li>
+            </ul>
+        ]]></field>
+        <field name="category">analytics</field>
+        <field name="language">fr</field>
+        <field name="priority">9</field>
+    </record>
+
+    <record id="kb_budget_optimization_fr" model="ai.knowledge.base">
+        <field name="question">optimiser budget</field>
+        <field name="answer"><![CDATA[
+            <p>💰 <strong>Optimisation du Budget Marketing</strong></p>
+            <p><strong>📊 Répartition Recommandée :</strong></p>
+            <ul>
+                <li>🥇 <strong>Email Marketing (40%) :</strong> Meilleur ROI - 4.2x</li>
+                <li>🥈 <strong>Réseaux Sociaux (30%) :</strong> Engagement élevé</li>
+                <li>🥉 <strong>Google Ads (20%) :</strong> Acquisition clients</li>
+                <li>📱 <strong>Marketing Mobile (10%) :</strong> Croissance future</li>
+            </ul>
+            <p><strong>⚡ Actions Immédiates :</strong></p>
+            <ol>
+                <li>Réduire budget Facebook (-20%) → ROI faible</li>
+                <li>Augmenter budget Email (+15%) → Performance excellente</li>
+                <li>Tester LinkedIn Ads (+5%) → Nouveau canal prometteur</li>
+            </ol>
+            <p><strong>📈 Impact Prévu :</strong> +25% ROI global</p>
+        ]]></field>
+        <field name="category">recommendations</field>
+        <field name="language">fr</field>
+        <field name="priority">8</field>
+    </record>
+
+    <!-- Entrées spécifiques détaillées en Anglais -->
+    <record id="kb_conversion_tracking_en" model="ai.knowledge.base">
+        <field name="question">conversion tracking</field>
+        <field name="answer"><![CDATA[
+            <p>🎯 <strong>Conversion Tracking Setup & Analysis</strong></p>
+            <p><strong>📊 Current Conversion Metrics:</strong></p>
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+                    <td><strong>Total Conversions:</strong></td>
+                    <td>{total_conversions} this month</td>
+                </tr>
+                <tr>
+                    <td><strong>Conversion Rate:</strong></td>
+                    <td>{conversion_rate:.2f}% (Target: 2-5%)</td>
+                </tr>
+                <tr>
+                    <td><strong>Cost Per Conversion:</strong></td>
+                    <td>${cost_per_conversion:.2f}</td>
+                </tr>
+                <tr>
+                    <td><strong>Revenue Per Conversion:</strong></td>
+                    <td>${revenue_per_conversion:.2f}</td>
+                </tr>
+            </table>
+            <p><strong>🔧 Setup Checklist:</strong></p>
+            <ul>
+                <li>✅ Google Analytics Goals configured</li>
+                <li>✅ Facebook Pixel installed</li>
+                <li>✅ UTM parameters in all links</li>
+                <li>✅ Cross-device tracking enabled</li>
+            </ul>
+            <p><strong>💡 Optimization Tips:</strong></p>
+            <ul>
+                <li>🎯 A/B test landing pages</li>
+                <li>📱 Optimize for mobile experience</li>
+                <li>⚡ Reduce page load time (<3 seconds)</li>
+            </ul>
+        ]]></field>
+        <field name="category">analytics</field>
+        <field name="language">en</field>
+        <field name="priority">9</field>
+    </record>
+
+    <record id="kb_ab_testing_en" model="ai.knowledge.base">
+        <field name="question">A/B testing</field>
+        <field name="answer"><![CDATA[
+            <p>🧪 <strong>A/B Testing Best Practices</strong></p>
+            <p><strong>📋 Current Tests Running:</strong></p>
+            <ul>
+                <li>📧 <strong>Subject Line Test:</strong> "Save 20%" vs "Limited Time Offer"</li>
+                <li>🎨 <strong>CTA Button:</strong> "Buy Now" vs "Shop Today"</li>
+                <li>⏰ <strong>Send Time:</strong> 9 AM vs 2 PM</li>
+            </ul>
+            <p><strong>🎯 Test Setup Guidelines:</strong></p>
+            <ol>
+                <li><strong>Single Variable:</strong> Test only one element at a time</li>
+                <li><strong>Sample Size:</strong> Minimum 1,000 recipients per variant</li>
+                <li><strong>Test Duration:</strong> Run for at least 1 week</li>
+                <li><strong>Statistical Significance:</strong> Aim for 95% confidence</li>
+            </ol>
+            <p><strong>📊 Elements to Test:</strong></p>
+            <ul>
+                <li>📝 Subject lines and preview text</li>
+                <li>🎨 Email design and layout</li>
+                <li>🔘 Call-to-action buttons</li>
+                <li>📅 Send times and days</li>
+                <li>🖼️ Images vs text-only content</li>
+            </ul>
+        ]]></field>
+        <field name="category">recommendations</field>
+        <field name="language">en</field>
+        <field name="priority">8</field>
+    </record>
+
+    <!-- Mots-clés supplémentaires -->
+    <record id="keyword_roi" model="ai.knowledge.keyword">
+        <field name="name">roi</field>
+    </record>
+    
+    <record id="keyword_budget" model="ai.knowledge.keyword">
+        <field name="name">budget</field>
+    </record>
+    
+    <record id="keyword_conversion" model="ai.knowledge.keyword">
+        <field name="name">conversion</field>
+    </record>
+    
+    <record id="keyword_email" model="ai.knowledge.keyword">
+        <field name="name">email</field>
+    </record>
+    
+    <record id="keyword_testing" model="ai.knowledge.keyword">
+        <field name="name">testing</field>
+    </record>
+
 </odoo>

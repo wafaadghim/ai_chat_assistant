@@ -480,11 +480,7 @@
                     </div>
                 </div>
                 
-                <div class="ai-quick-actions" id="aiQuickActions">
-                    <div class="ai-quick-action" onclick="window.sendAIQuickMessage('📊 Marketing Overview')">📊 Overview</div>
-                    <div class="ai-quick-action" onclick="window.sendAIQuickMessage('📈 Campaign Performance')">📈 Performance</div>
-                </div>
-
+                
                 <div class="ai-chat-input-container">
                     <textarea 
                         class="ai-chat-input" 
@@ -679,25 +675,25 @@
                     const msg = message.toLowerCase();
                     const language = window.detectMessageLanguage(message);
                     
-                    // Réponses multilingues
+                    // Définir les réponses localement pour éviter l'erreur ReferenceError
                     const responses = {
-                        'ar': {
-                            greeting: '🤖 ممتاز! أنا هنا لتحسين حملاتك التسويقية ومساعدتك في تحليل الأداء. ماذا تريد أن تعرف؟',
-                            overview: '📊 <strong>نظرة عامة على التسويق الشامل</strong><br><br>📈 <strong>الأداء الحالي:</strong><br>• 15 حملة نشطة<br>• متوسط معدل الفتح: 22.5% ⬆️<br>• متوسط معدل النقر: 3.2% ⬆️<br>• العائد الإجمالي: 3.8x 🎯',
-                            performance: '📈 <strong>تحليل مفصل للحملات</strong><br><br>🥇 <strong>أداء ممتاز:</strong><br>• نشرة نوفمبر: 28% فتح، 4.2% نقر<br>• عرض الجمعة السوداء: 31% فتح، 5.1% نقر<br><br>⚠️ <strong>يحتاج تحسين:</strong><br>• البريد الإلكتروني للمنتج X: 12% فتح',
-                            default: '🤖 سؤال ممتاز! يمكنني مساعدتك في:<br><br>📊 <strong>التحليلات:</strong> مقاييس مفصلة<br>📈 <strong>الأداء:</strong> تقارير الحملات<br>🎯 <strong>النظرة العامة:</strong> ملخص شامل<br><br>ما الذي تريد استكشافه؟'
-                        },
                         'fr': {
-                            greeting: '🤖 Parfait ! Je suis là pour optimiser vos campagnes marketing et analyser vos performances. Que voulez-vous savoir ?',
-                            overview: '📊 <strong>Aperçu Marketing Global</strong><br><br>📈 <strong>Performances actuelles :</strong><br>• 15 campagnes actives<br>• Taux d\'ouverture moyen : 22.5% ⬆️<br>• Taux de clic moyen : 3.2% ⬆️<br>• ROI global : 3.8x 🎯',
-                            performance: '📈 <strong>Analyse Détaillée des Campagnes</strong><br><br>🥇 <strong>Excellentes performances :</strong><br>• Newsletter Novembre : 28% ouverture, 4.2% clic<br>• Promo Black Friday : 31% ouverture, 5.1% clic<br><br>⚠️ <strong>Nécessite optimisation :</strong><br>• Email Produit X : 12% ouverture',
-                            default: '🤖 Excellente question ! Je peux vous accompagner sur :<br><br>📊 <strong>Analytics :</strong> Métriques détaillées<br>📈 <strong>Performance :</strong> Rapports de campagnes<br>🎯 <strong>Aperçu :</strong> Vue d\'ensemble<br><br>Que souhaitez-vous explorer ?'
+                            'greeting': '👋 Bonjour ! Je suis votre assistant IA marketing. Comment puis-je vous aider ?',
+                            'overview': '📊 Aperçu marketing : Vos campagnes performent bien avec un taux d\'ouverture moyen de 22%.',
+                            'performance': '📈 Performance : Vos dernières campagnes montrent une amélioration de 15% par rapport au mois dernier.',
+                            'default': '🤖 Je comprends votre question. Veuillez reformuler pour une réponse plus précise.'
                         },
                         'en': {
-                            greeting: '🤖 Perfect! I\'m here to optimize your marketing campaigns and analyze performance. What would you like to know?',
-                            overview: '📊 <strong>Global Marketing Overview</strong><br><br>📈 <strong>Current Performance:</strong><br>• 15 active campaigns<br>• Average open rate: 22.5% ⬆️<br>• Average click rate: 3.2% ⬆️<br>• Global ROI: 3.8x 🎯',
-                            performance: '📈 <strong>Detailed Campaign Analysis</strong><br><br>🥇 <strong>Excellent performance:</strong><br>• November Newsletter: 28% open, 4.2% click<br>• Black Friday Promo: 31% open, 5.1% click<br><br>⚠️ <strong>Needs optimization:</strong><br>• Product X Email: 12% open',
-                            default: '🤖 Excellent question! I can help you with:<br><br>📊 <strong>Analytics:</strong> Detailed metrics<br>📈 <strong>Performance:</strong> Campaign reports<br>🎯 <strong>Overview:</strong> Global summary<br><br>What would you like to explore?'
+                            'greeting': '👋 Hello! I\'m your AI marketing assistant. How can I help you?',
+                            'overview': '📊 Marketing overview: Your campaigns are performing well with an average open rate of 22%.',
+                            'performance': '📈 Performance: Your latest campaigns show a 15% improvement compared to last month.',
+                            'default': '🤖 I understand your question. Please rephrase for a more accurate response.'
+                        },
+                        'ar': {
+                            'greeting': '👋 مرحبا! أنا مساعدك للتسويق بالذكاء الاصطناعي. كيف يمكنني مساعدتك؟',
+                            'overview': '📊 نظرة عامة على التسويق: حملاتك تؤدي بشكل جيد بمعدل فتح متوسط 22%.',
+                            'performance': '📈 الأداء: حملاتك الأخيرة تظهر تحسنا بنسبة 15% مقارنة بالشهر الماضي.',
+                            'default': '🤖 أفهم سؤالك. يرجى إعادة الصياغة للحصول على إجابة أكثر دقة.'
                         }
                     };
                     

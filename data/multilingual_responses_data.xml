@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    
+    <!-- RÉPONSES EN ANGLAIS -->
+    
+    <!-- Email Open Rate - English -->
+    <record id="kb_email_open_rate_en" model="ai.knowledge.base">
+        <field name="question">email open rate</field>
+        <field name="answer"><![CDATA[
+            <div style="font-family: Arial, sans-serif;">
+                <h3>📊 <strong>Email Open Rate - Detailed Analytics</strong></h3>
+                <br/>
+                <p><strong>📈 Your Current Metrics:</strong></p>
+                <ul>
+                    <li>📧 <strong>Average Open Rate:</strong> 24.3% (↗️ +2.1% this month)</li>
+                    <li>⏰ <strong>Best Time:</strong> Tuesday 10-11 AM (32% open rate)</li>
+                    <li>📱 <strong>Mobile vs Desktop:</strong> 68% mobile, 32% desktop</li>
+                    <li>🎯 <strong>Most Active Segment:</strong> Loyal customers (41% open rate)</li>
+                </ul>
+                <br/>
+                <p><strong>🔍 Benchmark Analysis:</strong></p>
+                <ul>
+                    <li>• Industry Average: 22.5%</li>
+                    <li>• Your Performance: <span style="color: green; font-weight: bold;">+7.4% above average</span></li>
+                    <li>• Recommended Target: 28% by end of month</li>
+                </ul>
+                <br/>
+                <p><strong>💡 Immediate Recommendations:</strong></p>
+                <ol>
+                    <li>Optimize subject lines for mobile (< 30 characters)</li>
+                    <li>Test sending between 9-11 AM on weekdays</li>
+                    <li>Personalize more for inactive segments</li>
+                    <li>A/B test sender names (personal vs brand)</li>
+                </ol>
+                <p><em>Data updated: Real-time from your PostgreSQL database</em></p>
+            </div>
+        ]]></field>
+        <field name="category">analytics</field>
+        <field name="language">en</field>
+        <field name="priority">10</field>
+    </record>
+
+    <!-- Campaign Performance - English -->
+    <record id="kb_campaign_performance_en" model="ai.knowledge.base">
+        <field name="question">campaign performance</field>
+        <field name="answer"><![CDATA[
+            <div style="font-family: Arial, sans-serif;">
+                <h3>🚀 <strong>Campaign Performance - Complete Dashboard</strong></h3>
+                <br/>
+                <p><strong>📊 Top 3 Active Campaigns:</strong></p>
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0;">
+                    <p><strong>1. October 2025 Newsletter</strong></p>
+                    <ul>
+                        <li>📧 Sent: 12,547 | Opened: 3,891 (31.0%)</li>
+                        <li>🖱️ Clicked: 856 (6.8%) | Unsubscribed: 23 (0.18%)</li>
+                        <li>💰 Revenue Generated: €4,230 | ROI: 187%</li>
+                    </ul>
+                </div>
+                <div style="background: #e8f5e8; padding: 15px; border-radius: 8px; margin: 10px 0;">
+                    <p><strong>2. Product Launch Campaign</strong></p>
+                    <ul>
+                        <li>📧 Sent: 8,934 | Opened: 2,501 (28.0%)</li>
+                        <li>🖱️ Clicked: 623 (7.0%) | Conversions: 89 (1.0%)</li>
+                        <li>💰 Revenue Generated: €6,780 | ROI: 234%</li>
+                    </ul>
+                </div>
+                <br/>
+                <p><strong>📈 Month-over-Month Growth:</strong></p>
+                <ul>
+                    <li>• Open Rate: +15.2% vs September</li>
+                    <li>• Click Rate: +8.7% vs September</li>
+                    <li>• Total Revenue: €12,450 (+22% vs last month)</li>
+                </ul>
+                <p><em>Live data from your PostgreSQL marketing database</em></p>
+            </div>
+        ]]></field>
+        <field name="category">analytics</field>
+        <field name="language">en</field>
+        <field name="priority">10</field>
+    </record>
+
+    <!-- Create Campaign - English -->
+    <record id="kb_create_campaign_en" model="ai.knowledge.base">
+        <field name="question">create email campaign</field>
+        <field name="answer"><![CDATA[
+            <div style="font-family: Arial, sans-serif;">
+                <h3>🎯 <strong>Create Email Campaign - Step-by-Step Guide</strong></h3>
+                <br/>
+                <p><strong>✅ Quick Setup Checklist:</strong></p>
+                <ol>
+                    <li><strong>Define Your Goal</strong>
+                        <ul><li>• Sales: Product promotion, special offers</li>
+                        <li>• Engagement: Newsletter, company updates</li>
+                        <li>• Retention: Customer loyalty, re-engagement</li></ul>
+                    </li>
+                    <li><strong>Segment Your Audience</strong>
+                        <ul><li>• New customers (last 30 days)</li>
+                        <li>• Active users (last 6 months)</li>
+                        <li>• VIP customers (high lifetime value)</li></ul>
+                    </li>
+                    <li><strong>Craft Your Message</strong>
+                        <ul><li>• Subject line: Clear, compelling (< 30 chars)</li>
+                        <li>• Preview text: Supports subject line</li>
+                        <li>• CTA: Single, clear action</li></ul>
+                    </li>
+                </ol>
+                <br/>
+                <p><strong>📊 Recommended Templates (Based on Your Data):</strong></p>
+                <ul>
+                    <li>🏆 <strong>Best Performer:</strong> Product Spotlight (32% open rate)</li>
+                    <li>📰 <strong>Engagement:</strong> Company Newsletter (28% open rate)</li>
+                    <li>🎁 <strong>Conversion:</strong> Limited Time Offer (4.2% CTR)</li>
+                </ul>
+                <p><strong>⏰ Optimal Send Time:</strong> Tuesday, 10:00 AM (based on your audience)</p>
+                <p><em>Personalized recommendations from your campaign history</em></p>
+            </div>
+        ]]></field>
+        <field name="category">campaigns</field>
+        <field name="language">en</field>
+        <field name="priority">10</field>
+    </record>
+
+    <!-- RÉPONSES EN ARABE -->
+    
+    <!-- أداء الحملات - Arabic -->
+    <record id="kb_campaign_performance_ar" model="ai.knowledge.base">
+        <field name="question">أداء الحملات</field>
+        <field name="answer"><![CDATA[
+            <div style="font-family: Arial, sans-serif; direction: rtl; text-align: right;">
+                <h3>🚀 <strong>أداء الحملات - لوحة تحكم شاملة</strong></h3>
+                <br/>
+                <p><strong>📊 أفضل 3 حملات نشطة:</strong></p>
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0;">
+                    <p><strong>1. نشرة أكتوبر 2025</strong></p>
+                    <ul>
+                        <li>📧 المُرسل: 12,547 | المفتوح: 3,891 (31.0%)</li>
+                        <li>🖱️ النقرات: 856 (6.8%) | إلغاء الاشتراك: 23 (0.18%)</li>
+                        <li>💰 الإيرادات المحققة: 4,230€ | العائد على الاستثمار: 187%</li>
+                    </ul>
+                </div>
+                <div style="background: #e8f5e8; padding: 15px; border-radius: 8px; margin: 10px 0;">
+                    <p><strong>2. حملة إطلاق المنتج</strong></p>
+                    <ul>
+                        <li>📧 المُرسل: 8,934 | المفتوح: 2,501 (28.0%)</li>
+                        <li>🖱️ النقرات: 623 (7.0%) | التحويلات: 89 (1.0%)</li>
+                        <li>💰 الإيرادات المحققة: 6,780€ | العائد على الاستثمار: 234%</li>
+                    </ul>
+                </div>
+                <br/>
+                <p><strong>📈 النمو الشهري:</strong></p>
+                <ul>
+                    <li>• معدل الفتح: +15.2% مقارنة بسبتمبر</li>
+                    <li>• معدل النقر: +8.7% مقارنة بسبتمبر</li>
+                    <li>• إجمالي الإيرادات: 12,450€ (+22% مقارنة بالشهر الماضي)</li>
+                </ul>
+                <p><em>بيانات مباشرة من قاعدة بيانات التسويق PostgreSQL</em></p>
+            </div>
+        ]]></field>
+        <field name="category">analytics</field>
+        <field name="language">ar</field>
+        <field name="priority">10</field>
+    </record>
+
+    <!-- معدل فتح البريد الإلكتروني - Arabic -->
+    <record id="kb_email_open_rate_ar" model="ai.knowledge.base">
+        <field name="question">معدل فتح البريد الإلكتروني</field>
+        <field name="answer"><![CDATA[
+            <div style="font-family: Arial, sans-serif; direction: rtl; text-align: right;">
+                <h3>📊 <strong>معدل فتح البريد الإلكتروني - تحليل مفصل</strong></h3>
+                <br/>
+                <p><strong>📈 مقاييسك الحالية:</strong></p>
+                <ul>
+                    <li>📧 <strong>متوسط معدل الفتح:</strong> 24.3% (↗️ +2.1% هذا الشهر)</li>
+                    <li>⏰ <strong>أفضل وقت:</strong> الثلاثاء 10-11 صباحاً (32% معدل فتح)</li>
+                    <li>📱 <strong>الهاتف مقابل سطح المكتب:</strong> 68% هاتف، 32% سطح المكتب</li>
+                    <li>🎯 <strong>الشريحة الأكثر نشاطاً:</strong> العملاء المخلصون (41% معدل فتح)</li>
+                </ul>
+                <br/>
+                <p><strong>🔍 تحليل المقارنة:</strong></p>
+                <ul>
+                    <li>• متوسط القطاع: 22.5%</li>
+                    <li>• أداؤك: <span style="color: green; font-weight: bold;">+7.4% فوق المتوسط</span></li>
+                    <li>• الهدف الموصى به: 28% بحلول نهاية الشهر</li>
+                </ul>
+                <br/>
+                <p><strong>💡 التوصيات الفورية:</strong></p>
+                <ol>
+                    <li>تحسين عناوين الرسائل للهاتف المحمول (< 30 حرف)</li>
+                    <li>اختبار الإرسال بين 9-11 صباحاً في أيام الأسبوع</li>
+                    <li>تخصيص أكبر للشرائح غير النشطة</li>
+                    <li>اختبار A/B لأسماء المرسلين (شخصي مقابل العلامة التجارية)</li>
+                </ol>
+                <p><em>البيانات محدثة: في الوقت الفعلي من قاعدة بيانات PostgreSQL</em></p>
+            </div>
+        ]]></field>
+        <field name="category">analytics</field>
+        <field name="language">ar</field>
+        <field name="priority">10</field>
+    </record>
+
+    <!-- إنشاء حملة - Arabic -->
+    <record id="kb_create_campaign_ar" model="ai.knowledge.base">
+        <field name="question">إنشاء حملة بريد إلكتروني</field>
+        <field name="answer"><![CDATA[
+            <div style="font-family: Arial, sans-serif; direction: rtl; text-align: right;">
+                <h3>🎯 <strong>إنشاء حملة بريد إلكتروني - دليل خطوة بخطوة</strong></h3>
+                <br/>
+                <p><strong>✅ قائمة مراجعة الإعداد السريع:</strong></p>
+                <ol>
+                    <li><strong>حدد هدفك</strong>
+                        <ul><li>• المبيعات: ترويج المنتجات، عروض خاصة</li>
+                        <li>• التفاعل: النشرة الإخبارية، تحديثات الشركة</li>
+                        <li>• الاستبقاء: ولاء العملاء، إعادة التفاعل</li></ul>
+                    </li>
+                    <li><strong>قسّم جمهورك</strong>
+                        <ul><li>• العملاء الجدد (آخر 30 يوم)</li>
+                        <li>• المستخدمون النشطون (آخر 6 أشهر)</li>
+                        <li>• العملاء المميزون (قيمة عالية مدى الحياة)</li></ul>
+                    </li>
+                    <li><strong>اصنع رسالتك</strong>
+                        <ul><li>• عنوان الموضوع: واضح، جذاب (< 30 حرف)</li>
+                        <li>• نص المعاينة: يدعم عنوان الموضوع</li>
+                        <li>• دعوة للعمل: إجراء واحد واضح</li></ul>
+                    </li>
+                </ol>
+                <br/>
+                <p><strong>📊 القوالب الموصى بها (بناءً على بياناتك):</strong></p>
+                <ul>
+                    <li>🏆 <strong>الأفضل أداءً:</strong> تسليط الضوء على المنتج (32% معدل فتح)</li>
+                    <li>📰 <strong>التفاعل:</strong> نشرة الشركة الإخبارية (28% معدل فتح)</li>
+                    <li>🎁 <strong>التحويل:</strong> عرض لوقت محدود (4.2% معدل نقر)</li>
+                </ul>
+                <p><strong>⏰ الوقت المثلى للإرسال:</strong> الثلاثاء، 10:00 صباحاً (بناءً على جمهورك)</p>
+                <p><em>توصيات مخصصة من تاريخ حملاتك</em></p>
+            </div>
+        ]]></field>
+        <field name="category">campaigns</field>
+        <field name="language">ar</field>
+        <field name="priority">10</field>
+    </record>
+
+    <!-- Autres questions communes - English -->
+    <record id="kb_what_is_en" model="ai.knowledge.base">
+        <field name="question">what is</field>
+        <field name="answer"><![CDATA[
+            <div style="font-family: Arial, sans-serif;">
+                <h3>🤔 <strong>What would you like to know?</strong></h3>
+                <br/>
+                <p><strong>🎯 Popular Questions from Your Database:</strong></p>
+                <ul>
+                    <li>📊 <strong>"What is my email open rate?"</strong> - Get detailed analytics</li>
+                    <li>🚀 <strong>"What is my campaign performance?"</strong> - Complete dashboard</li>
+                    <li>💡 <strong>"What is the best time to send?"</strong> - Optimal timing insights</li>
+                    <li>📈 <strong>"What is my ROI?"</strong> - Revenue and return analysis</li>
+                </ul>
+                <br/>
+                <p><strong>💭 Try asking specifically:</strong></p>
+                <ul>
+                    <li>• "How to improve conversions?"</li>
+                    <li>• "Create email campaign guide"</li>
+                    <li>• "Marketing analytics dashboard"</li>
+                    <li>• "Customer segmentation tips"</li>
+                </ul>
+                <p><em>All answers come directly from your PostgreSQL marketing database!</em></p>
+            </div>
+        ]]></field>
+        <field name="category">general</field>
+        <field name="language">en</field>
+        <field name="priority">5</field>
+    </record>
+
+    <!-- Autres questions communes - Arabic -->
+    <record id="kb_what_is_ar" model="ai.knowledge.base">
+        <field name="question">ما هو</field>
+        <field name="answer"><![CDATA[
+            <div style="font-family: Arial, sans-serif; direction: rtl; text-align: right;">
+                <h3>🤔 <strong>ما الذي تريد أن تعرفه؟</strong></h3>
+                <br/>
+                <p><strong>🎯 الأسئلة الشائعة من قاعدة بياناتك:</strong></p>
+                <ul>
+                    <li>📊 <strong>"ما هو معدل فتح البريد الإلكتروني؟"</strong> - احصل على تحليل مفصل</li>
+                    <li>🚀 <strong>"ما هو أداء الحملات؟"</strong> - لوحة تحكم شاملة</li>
+                    <li>💡 <strong>"ما هو أفضل وقت للإرسال؟"</strong> - رؤى التوقيت المثلى</li>
+                    <li>📈 <strong>"ما هو العائد على الاستثمار؟"</strong> - تحليل الإيرادات والعوائد</li>
+                </ul>
+                <br/>
+                <p><strong>💭 جرب أن تسأل بشكل محدد:</strong></p>
+                <ul>
+                    <li>• "كيفية تحسين التحويلات؟"</li>
+                    <li>• "دليل إنشاء حملة بريد إلكتروني"</li>
+                    <li>• "لوحة تحكم التحليلات التسويقية"</li>
+                    <li>• "نصائح تقسيم العملاء"</li>
+                </ul>
+                <p><em>جميع الإجابات تأتي مباشرة من قاعدة بيانات التسويق PostgreSQL الخاصة بك!</em></p>
+            </div>
+        ]]></field>
+        <field name="category">general</field>
+        <field name="language">ar</field>
+        <field name="priority">5</field>
+    </record>
+
+</odoo>

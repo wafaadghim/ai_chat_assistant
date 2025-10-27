@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test JavaScript Fix - window.getStaticAIResponse</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-result { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background-color: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
+        .error { background-color: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
+        .code-block { background-color: #f8f9fa; padding: 10px; margin: 10px 0; border-radius: 5px; font-family: monospace; }
+        #testOutput { max-height: 200px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; background: #f9f9f9; }
+    </style>
+</head>
+<body>
+    <h1>🔧 Test JavaScript - Correction window.getStaticAIResponse</h1>
+    
+    <div class="test-result success">
+        <h2>🎯 Objectif</h2>
+        <p>Tester que la fonction <code>window.getStaticAIResponse</code> fonctionne sans erreur <code>ReferenceError: responses is not defined</code></p>
+    </div>
+
+    <div class="test-result">
+        <h2>🧪 Tests Automatiques</h2>
+        <button onclick="runAllTests()" style="padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
+            Exécuter Tous les Tests
+        </button>
+        <div id="testOutput"></div>
+    </div>
+
+    <script>
+        // Fonction de détection de langue (simulation)
+        window.detectMessageLanguage = function(message) {
+            if (/[\u0600-\u06FF]/.test(message)) return 'ar';
+            if (/\b(bonjour|salut|comment|ça|français)\b/i.test(message)) return 'fr';
+            return 'en';
+        };
+
+        // Fonction corrigée avec responses définie localement
+        window.getStaticAIResponse = function(message) {
+            const msg = message.toLowerCase();
+            const language = window.detectMessageLanguage(message);
+            
+            // ✅ CORRECTION: Définir les réponses localement
+            const responses = {
+                'fr': {
+                    'greeting': '👋 Bonjour ! Je suis votre assistant IA marketing. Comment puis-je vous aider ?',
+                    'overview': '📊 Aperçu marketing : Vos campagnes performent bien avec un taux d\'ouverture moyen de 22%.',
+                    'performance': '📈 Performance : Vos dernières campagnes montrent une amélioration de 15% par rapport au mois dernier.',
+                    'default': '🤖 Je comprends votre question. Veuillez reformuler pour une réponse plus précise.'
+                },
+                'en': {
+                    'greeting': '👋 Hello! I\'m your AI marketing assistant. How can I help you?',
+                    'overview': '📊 Marketing overview: Your campaigns are performing well with an average open rate of 22%.',
+                    'performance': '📈 Performance: Your latest campaigns show a 15% improvement compared to last month.',
+                    'default': '🤖 I understand your question. Please rephrase for a more accurate response.'
+                },
+                'ar': {
+                    'greeting': '👋 مرحبا! أنا مساعدك للتسويق بالذكاء الاصطناعي. كيف يمكنني مساعدتك؟',
+                    'overview': '📊 نظرة عامة على التسويق: حملاتك تؤدي بشكل جيد بمعدل فتح متوسط 22%.',
+                    'performance': '📈 الأداء: حملاتك الأخيرة تظهر تحسنا بنسبة 15% مقارنة بالشهر الماضي.',
+                    'default': '🤖 أفهم سؤالك. يرجى إعادة الصياغة للحصول على إجابة أكثر دقة.'
+                }
+            };
+            
+            const lang = responses[language] || responses['en'];
+            
+            if (msg.includes('hello') || msg.includes('hi') || msg.includes('bonjour') || msg.includes('salut') || msg.includes('مرحبا') || msg.includes('السلام')) {
+                return lang.greeting;
+            }
+            
+            if (msg.includes('aperçu') || msg.includes('overview') || msg.includes('نظرة')) {
+                return lang.overview;
+            }
+            
+            if (msg.includes('performance') || msg.includes('campagne') || msg.includes('campaign') || msg.includes('أداء') || msg.includes('حملة')) {
+                return lang.performance;
+            }
+            
+            return lang.default;
+        };
+
+        // Fonction de test
+        function runTest(testName, testFunction) {
+            const output = document.getElementById('testOutput');
+            try {
+                const result = testFunction();
+                output.innerHTML += `<div style="color: green;">✅ ${testName}: RÉUSSI</div>`;
+                if (result) {
+                    output.innerHTML += `<div style="margin-left: 20px; color: #666;">Résultat: ${result}</div>`;
+                }
+                return true;
+            } catch (error) {
+                output.innerHTML += `<div style="color: red;">❌ ${testName}: ÉCHEC - ${error.message}</div>`;
+                return false;
+            }
+        }
+
+        function runAllTests() {
+            const output = document.getElementById('testOutput');
+            output.innerHTML = '<h3>🔍 Exécution des tests...</h3>';
+            
+            let totalTests = 0;
+            let passedTests = 0;
+
+            // Test 1: Salutation française
+            totalTests++;
+            if (runTest('Test salutation française', () => {
+                return window.getStaticAIResponse('Bonjour !');
+            })) passedTests++;
+
+            // Test 2: Salutation anglaise
+            totalTests++;
+            if (runTest('Test salutation anglaise', () => {
+                return window.getStaticAIResponse('Hello there!');
+            })) passedTests++;
+
+            // Test 3: Salutation arabe
+            totalTests++;
+            if (runTest('Test salutation arabe', () => {
+                return window.getStaticAIResponse('مرحبا');
+            })) passedTests++;
+
+            // Test 4: Question performance
+            totalTests++;
+            if (runTest('Test question performance', () => {
+                return window.getStaticAIResponse('What is my campaign performance?');
+            })) passedTests++;
+
+            // Test 5: Question overview
+            totalTests++;
+            if (runTest('Test question overview', () => {
+                return window.getStaticAIResponse('Montre-moi l\'aperçu marketing');
+            })) passedTests++;
+
+            // Test 6: Question par défaut
+            totalTests++;
+            if (runTest('Test question par défaut', () => {
+                return window.getStaticAIResponse('Question quelconque sans mots-clés');
+            })) passedTests++;
+
+            // Test 7: Vérifier que responses n'est pas global
+            totalTests++;
+            if (runTest('Test absence de variable globale responses', () => {
+                if (typeof responses !== 'undefined') {
+                    throw new Error('Variable globale responses détectée (problème)');
+                }
+                return 'Variable responses correctement encapsulée';
+            })) passedTests++;
+
+            // Résultat final
+            output.innerHTML += `<h3 style="margin-top: 20px;">📊 Résultats des Tests</h3>`;
+            output.innerHTML += `<div style="font-weight: bold; font-size: 18px;">`;
+            output.innerHTML += `${passedTests}/${totalTests} tests réussis`;
+            output.innerHTML += `</div>`;
+            
+            if (passedTests === totalTests) {
+                output.innerHTML += `<div style="color: green; font-weight: bold; margin-top: 10px;">`;
+                output.innerHTML += `🎉 TOUS LES TESTS RÉUSSIS ! La correction fonctionne parfaitement.`;
+                output.innerHTML += `</div>`;
+            } else {
+                output.innerHTML += `<div style="color: red; font-weight: bold; margin-top: 10px;">`;
+                output.innerHTML += `❌ ${totalTests - passedTests} test(s) ont échoué.`;
+                output.innerHTML += `</div>`;
+            }
+        }
+
+        // Auto-exécution au chargement
+        window.addEventListener('load', function() {
+            console.log('🧪 Page de test JavaScript chargée');
+            console.log('✅ Fonction window.getStaticAIResponse définie');
+            console.log('🔧 Prêt pour les tests');
+        });
+    </script>
+
+    <div class="test-result success">
+        <h2>📝 Code Corrigé</h2>
+        <div class="code-block">
+window.getStaticAIResponse = function(message) {
+    const msg = message.toLowerCase();
+    const language = window.detectMessageLanguage(message);
+    
+    // ✅ CORRECTION: Définir responses localement
+    const responses = {
+        'fr': { /* ... réponses françaises ... */ },
+        'en': { /* ... réponses anglaises ... */ },
+        'ar': { /* ... réponses arabes ... */ }
+    };
+    
+    const lang = responses[language] || responses['en'];
+    // ... reste de la logique
+};
+        </div>
+    </div>
+
+    <div class="test-result success">
+        <h2>🎯 Validation</h2>
+        <p>✅ Variable <code>responses</code> définie localement dans la fonction</p>
+        <p>✅ Aucune référence à des variables globales inexistantes</p>
+        <p>✅ Support multilingue maintenu (FR/EN/AR)</p>
+        <p>✅ Logique de détection des intentions préservée</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    
+    <!-- Entrées spécifiques pour questions précises - Performance -->
+    <record id="kb_email_open_rate_fr" model="ai.knowledge.base">
+        <field name="question">taux d'ouverture email</field>
+        <field name="answer"><![CDATA[
+            <p>📧 <strong>Taux d'Ouverture Email - Analyse Détaillée</strong></p>
+            <p><strong>📊 Vos Métriques Actuelles :</strong></p>
+            <ul>
+                <li>Taux d'ouverture moyen : {avg_open_rate:.1f}%</li>
+                <li>Benchmark secteur : 21.3%</li>
+                <li>Votre position : {position_vs_benchmark}</li>
+            </ul>
+            <p><strong>🎯 Recommandations Spécifiques :</strong></p>
+            <ol>
+                <li><strong>Objet optimisé :</strong> 6-10 mots max</li>
+                <li><strong>Personnalisation :</strong> Inclure le prénom</li>
+                <li><strong>Timing :</strong> Mardi 10h ou Jeudi 14h</li>
+                <li><strong>Test A/B :</strong> Tester 2 objets différents</li>
+            </ol>
+            <p><em>💡 Gain attendu : +15-25% d'ouverture avec ces optimisations</em></p>
+        ]]></field>
+        <field name="category">analytics</field>
+        <field name="language">fr</field>
+        <field name="priority">10</field>
+    </record>
+
+    <record id="kb_email_open_rate_ar" model="ai.knowledge.base">
+        <field name="question">معدل فتح البريد الإلكتروني</field>
+        <field name="answer"><![CDATA[
+            <p>📧 <strong>معدل فتح البريد الإلكتروني - تحليل مفصل</strong></p>
+            <p><strong>📊 مقاييسك الحالية :</strong></p>
+            <ul>
+                <li>معدل الفتح المتوسط : {avg_open_rate:.1f}%</li>
+                <li>المعيار القطاعي : 21.3%</li>
+                <li>موقفك : {position_vs_benchmark}</li>
+            </ul>
+            <p><strong>🎯 التوصيات المحددة :</strong></p>
+            <ol>
+                <li><strong>عنوان محسن :</strong> 6-10 كلمات كحد أقصى</li>
+                <li><strong>الشخصنة :</strong> تضمين الاسم الأول</li>
+                <li><strong>التوقيت :</strong> الثلاثاء 10 صباحاً أو الخميس 2 بعد الظهر</li>
+                <li><strong>اختبار A/B :</strong> اختبار عنوانين مختلفين</li>
+            </ol>
+            <p><em>💡 الكسب المتوقع : +15-25% في الفتح مع هذه التحسينات</em></p>
+        ]]></field>
+        <field name="category">analytics</field>
+        <field name="language">ar</field>
+        <field name="priority">10</field>
+    </record>
+
+    <record id="kb_email_open_rate_en" model="ai.knowledge.base">
+        <field name="question">email open rate</field>
+        <field name="answer"><![CDATA[
+            <p>📧 <strong>Email Open Rate - Detailed Analysis</strong></p>
+            <p><strong>📊 Your Current Metrics:</strong></p>
+            <ul>
+                <li>Average open rate: {avg_open_rate:.1f}%</li>
+                <li>Industry benchmark: 21.3%</li>
+                <li>Your position: {position_vs_benchmark}</li>
+            </ul>
+            <p><strong>🎯 Specific Recommendations:</strong></p>
+            <ol>
+                <li><strong>Optimized Subject:</strong> 6-10 words max</li>
+                <li><strong>Personalization:</strong> Include first name</li>
+                <li><strong>Timing:</strong> Tuesday 10am or Thursday 2pm</li>
+                <li><strong>A/B Testing:</strong> Test 2 different subjects</li>
+            </ol>
+            <p><em>💡 Expected gain: +15-25% open rate with these optimizations</em></p>
+        ]]></field>
+        <field name="category">analytics</field>
+        <field name="language">en</field>
+        <field name="priority">10</field>
+    </record>
+
+    <!-- Entrées spécifiques pour création de campagne -->
+    <record id="kb_create_email_campaign_fr" model="ai.knowledge.base">
+        <field name="question">créer campagne email</field>
+        <field name="answer"><![CDATA[
+            <p>🚀 <strong>Création de Campagne Email - Guide Étape par Étape</strong></p>
+            <p><strong>📋 Étapes Essentielles :</strong></p>
+            <ol>
+                <li><strong>1. Définir l'objectif :</strong>
+                    <ul><li>Vente directe</li><li>Lead nurturing</li><li>Réengagement</li></ul>
+                </li>
+                <li><strong>2. Segmenter l'audience :</strong>
+                    <ul><li>Nouveaux prospects</li><li>Clients existants</li><li>Clients inactifs</li></ul>
+                </li>
+                <li><strong>3. Créer le contenu :</strong>
+                    <ul><li>Objet accrocheur (6-8 mots)</li><li>Personnalisation avec prénom</li><li>CTA clair et visible</li></ul>
+                </li>
+                <li><strong>4. Programmer l'envoi :</strong>
+                    <ul><li>Mardi-Jeudi : 10h-14h</li><li>Éviter lundi matin et vendredi après-midi</li></ul>
+                </li>
+            </ol>
+            <p><strong>✅ Checklist de Lancement :</strong></p>
+            <ul>
+                <li>□ Test sur différents clients email</li>
+                <li>□ Vérification liens et images</li>
+                <li>□ Test responsive mobile</li>
+                <li>□ Configuration tracking UTM</li>
+            </ul>
+        ]]></field>
+        <field name="category">campaigns</field>
+        <field name="language">fr</field>
+        <field name="priority">10</field>
+    </record>
+
+    <!-- Entrées spécifiques pour ROI -->
+    <record id="kb_calculate_roi_fr" model="ai.knowledge.base">
+        <field name="question">calculer ROI marketing</field>
+        <field name="answer"><![CDATA[
+            <p>💰 <strong>Calcul ROI Marketing - Méthode Précise</strong></p>
+            <p><strong>📊 Formule ROI :</strong></p>
+            <div style="background: #f0f0f0; padding: 10px; border-radius: 5px;">
+                <strong>ROI = (Revenus générés - Coût campagne) / Coût campagne × 100</strong>
+            </div>
+            <p><strong>📈 Vos Données Actuelles :</strong></p>
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr><td><strong>Coût total campagnes :</strong></td><td>{total_campaign_cost:,.0f}€</td></tr>
+                <tr><td><strong>Revenus générés :</strong></td><td>{total_revenue:,.0f}€</td></tr>
+                <tr><td><strong>ROI calculé :</strong></td><td>{calculated_roi:.1f}%</td></tr>
+            </table>
+            <p><strong>🎯 Interprétation :</strong></p>
+            <ul>
+                <li>✅ <strong>ROI > 300% :</strong> Excellent, augmentez le budget</li>
+                <li>🟡 <strong>ROI 100-300% :</strong> Correct, optimisez pour améliorer</li>
+                <li>❌ <strong>ROI < 100% :</strong> Perte, revoyez la stratégie</li>
+            </ul>
+            <p><strong>💡 Actions Recommandées :</strong></p>
+            <ol>
+                <li>Augmenter budget sur canaux ROI > 400%</li>
+                <li>Optimiser canaux ROI 100-300%</li>
+                <li>Suspendre canaux ROI < 50%</li>
+            </ol>
+        ]]></field>
+        <field name="category">analytics</field>
+        <field name="language">fr</field>
+        <field name="priority">10</field>
+    </record>
+
+    <!-- Entrées spécifiques pour problèmes concrets -->
+    <record id="kb_low_conversion_rate_fr" model="ai.knowledge.base">
+        <field name="question">faible taux de conversion</field>
+        <field name="answer"><![CDATA[
+            <p>⚠️ <strong>Diagnostic - Faible Taux de Conversion</strong></p>
+            <p><strong>🔍 Analyse de Vos Métriques :</strong></p>
+            <ul>
+                <li>Taux de conversion actuel : {current_conversion_rate:.2f}%</li>
+                <li>Objectif secteur : 2-5%</li>
+                <li>Écart à combler : {conversion_gap:.1f}%</li>
+            </ul>
+            <p><strong>🎯 Causes Probables :</strong></p>
+            <ol>
+                <li><strong>Page de destination :</strong> Temps de chargement > 3s</li>
+                <li><strong>Call-to-Action :</strong> Pas assez visible ou clair</li>
+                <li><strong>Audience :</strong> Mauvais ciblage</li>
+                <li><strong>Offre :</strong> Pas assez attractive</li>
+            </ol>
+            <p><strong>⚡ Plan d'Action Immédiat :</strong></p>
+            <ol>
+                <li><strong>Semaine 1 :</strong> Optimiser vitesse page (objectif <3s)</li>
+                <li><strong>Semaine 2 :</strong> A/B tester 3 CTA différents</li>
+                <li><strong>Semaine 3 :</strong> Affiner ciblage audience</li>
+                <li><strong>Semaine 4 :</strong> Tester nouvelle offre</li>
+            </ol>
+            <p><strong>📈 Résultat Attendu :</strong> +50-100% de conversion en 1 mois</p>
+        ]]></field>
+        <field name="category">recommendations</field>
+        <field name="language">fr</field>
+        <field name="priority">9</field>
+    </record>
+
+    <!-- Entrées pour questions d'optimisation spécifiques -->
+    <record id="kb_improve_email_deliverability_fr" model="ai.knowledge.base">
+        <field name="question">améliorer délivrabilité email</field>
+        <field name="answer"><![CDATA[
+            <p>📬 <strong>Amélioration Délivrabilité Email</strong></p>
+            <p><strong>📊 Diagnostic Actuel :</strong></p>
+            <ul>
+                <li>Taux de délivrabilité : {deliverability_rate:.1f}%</li>
+                <li>Emails en spam : {spam_rate:.1f}%</li>
+                <li>Bounces : {bounce_rate:.1f}%</li>
+            </ul>
+            <p><strong>🔧 Actions Techniques Immédiates :</strong></p>
+            <ol>
+                <li><strong>Configuration SPF/DKIM :</strong> Authentification domaine</li>
+                <li><strong>Nettoyage liste :</strong> Supprimer emails invalides</li>
+                <li><strong>Réchauffement IP :</strong> Augmentation progressive volume</li>
+                <li><strong>Monitoring reputation :</strong> Surveiller blacklists</li>
+            </ol>
+            <p><strong>✅ Bonnes Pratiques Contenu :</strong></p>
+            <ul>
+                <li>Ratio texte/image : 70/30</li>
+                <li>Éviter mots spam : "gratuit", "urgent", "PROMO"</li>
+                <li>Lien de désabonnement visible</li>
+                <li>Adresse expéditeur reconnue</li>
+            </ul>
+            <p><strong>📈 Amélioration Attendue :</strong> +20-30% délivrabilité en 2 semaines</p>
+        ]]></field>
+        <field name="category">recommendations</field>
+        <field name="language">fr</field>
+        <field name="priority">9</field>
+    </record>
+
+    <!-- Mots-clés pour améliorer le matching -->
+    <record id="keyword_taux" model="ai.knowledge.keyword">
+        <field name="name">taux</field>
+    </record>
+    
+    <record id="keyword_ouverture" model="ai.knowledge.keyword">
+        <field name="name">ouverture</field>
+    </record>
+    
+    <record id="keyword_delivrabilite" model="ai.knowledge.keyword">
+        <field name="name">delivrabilite</field>
+    </record>
+    
+    <record id="keyword_creer" model="ai.knowledge.keyword">
+        <field name="name">creer</field>
+    </record>
+    
+    <record id="keyword_calculer" model="ai.knowledge.keyword">
+        <field name="name">calculer</field>
+    </record>
+    
+    <record id="keyword_faible" model="ai.knowledge.keyword">
+        <field name="name">faible</field>
+    </record>
+    
+    <record id="keyword_ameliorer" model="ai.knowledge.keyword">
+        <field name="name">ameliorer</field>
+    </record>
+
+    <!-- Associations mots-clés aux entrées -->
+    <record id="kb_email_open_rate_fr" model="ai.knowledge.base">
+        <field name="keywords" eval="[(6, 0, [ref('keyword_taux'), ref('keyword_ouverture'), ref('keyword_email')])]"/>
+    </record>
+    
+    <record id="kb_create_email_campaign_fr" model="ai.knowledge.base">
+        <field name="keywords" eval="[(6, 0, [ref('keyword_creer'), ref('keyword_campaign'), ref('keyword_email')])]"/>
+    </record>
+    
+    <record id="kb_calculate_roi_fr" model="ai.knowledge.base">
+        <field name="keywords" eval="[(6, 0, [ref('keyword_calculer'), ref('keyword_roi'), ref('keyword_marketing')])]"/>
+    </record>
+    
+    <record id="kb_low_conversion_rate_fr" model="ai.knowledge.base">
+        <field name="keywords" eval="[(6, 0, [ref('keyword_faible'), ref('keyword_conversion'), ref('keyword_taux')])]"/>
+    </record>
+    
+    <record id="kb_improve_email_deliverability_fr" model="ai.knowledge.base">
+        <field name="keywords" eval="[(6, 0, [ref('keyword_ameliorer'), ref('keyword_delivrabilite'), ref('keyword_email')])]"/>
+    </record>
+
+</odoo>

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Réponses Multilingues - AI Chat Assistant</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+        }
+        .test-section h3 {
+            color: #333;
+            margin-top: 0;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        .test-item {
+            margin: 15px 0;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+        .question {
+            font-weight: bold;
+            color: #007bff;
+            cursor: pointer;
+            padding: 8px;
+            background-color: #e3f2fd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .question:hover {
+            background-color: #bbdefb;
+        }
+        .expected {
+            color: #28a745;
+            font-style: italic;
+            margin-top: 5px;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            background-color: white;
+            min-height: 40px;
+        }
+        .loading {
+            color: #6c757d;
+            font-style: italic;
+        }
+        .error {
+            color: #dc3545;
+            background-color: #f8d7da;
+        }
+        .success {
+            color: #155724;
+            background-color: #d4edda;
+        }
+        .lang-indicator {
+            display: inline-block;
+            padding: 3px 8px;
+            background-color: #6f42c1;
+            color: white;
+            border-radius: 12px;
+            font-size: 0.8em;
+            margin-left: 10px;
+        }
+        .stats {
+            background-color: #e8f5e8;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>🌍 Test Détection de Langue et Réponses Multilingues</h1>
+    
+    <div class="stats">
+        <h3>📊 Statistiques des Tests</h3>
+        <div>
+            <strong>Tests Total :</strong> <span id="total-tests">0</span> |
+            <strong>Réussis :</strong> <span id="success-count">0</span> |
+            <strong>Échecs :</strong> <span id="error-count">0</span> |
+            <strong>Taux de Réussite :</strong> <span id="success-rate">0%</span>
+        </div>
+    </div>
+    
+    <div class="test-container">
+        <button class="btn" onclick="runAllTests()">🚀 Lancer Tous les Tests</button>
+        <button class="btn" onclick="clearAllResults()">🗑️ Effacer les Résultats</button>
+    </div>
+
+    <!-- Tests Français -->
+    <div class="test-section">
+        <h3>🇫🇷 Tests en Français</h3>
+        
+        <div class="test-item">
+            <div class="question" onclick="testQuestion('taux d\'ouverture email', 'fr-1')">
+                "taux d'ouverture email" <span class="lang-indicator">FR</span>
+            </div>
+            <div class="expected">✅ Attendu : Analyse détaillée en français avec métriques réelles</div>
+            <div class="result" id="result-fr-1">Cliquez sur la question pour tester...</div>
+        </div>
+        
+        <div class="test-item">
+            <div class="question" onclick="testQuestion('performance campagne', 'fr-2')">
+                "performance campagne" <span class="lang-indicator">FR</span>
+            </div>
+            <div class="expected">✅ Attendu : Dashboard complet en français avec ROI et revenus</div>
+            <div class="result" id="result-fr-2">Cliquez sur la question pour tester...</div>
+        </div>
+        
+        <div class="test-item">
+            <div class="question" onclick="testQuestion('créer campagne email', 'fr-3')">
+                "créer campagne email" <span class="lang-indicator">FR</span>
+            </div>
+            <div class="expected">✅ Attendu : Guide étape par étape en français</div>
+            <div class="result" id="result-fr-3">Cliquez sur la question pour tester...</div>
+        </div>
+    </div>
+
+    <!-- Tests Anglais -->
+    <div class="test-section">
+        <h3>🇬🇧 Tests en Anglais</h3>
+        
+        <div class="test-item">
+            <div class="question" onclick="testQuestion('email open rate', 'en-1')">
+                "email open rate" <span class="lang-indicator">EN</span>
+            </div>
+            <div class="expected">✅ Attendu : Detailed analytics in English with real metrics</div>
+            <div class="result" id="result-en-1">Click question to test...</div>
+        </div>
+        
+        <div class="test-item">
+            <div class="question" onclick="testQuestion('campaign performance', 'en-2')">
+                "campaign performance" <span class="lang-indicator">EN</span>
+            </div>
+            <div class="expected">✅ Attendu : Complete dashboard in English with ROI</div>
+            <div class="result" id="result-en-2">Click question to test...</div>
+        </div>
+        
+        <div class="test-item">
+            <div class="question" onclick="testQuestion('create email campaign', 'en-3')">
+                "create email campaign" <span class="lang-indicator">EN</span>
+            </div>
+            <div class="expected">✅ Attendu : Step-by-step guide in English</div>
+            <div class="result" id="result-en-3">Click question to test...</div>
+        </div>
+        
+        <div class="test-item">
+            <div class="question" onclick="testQuestion('what is my ROI', 'en-4')">
+                "what is my ROI" <span class="lang-indicator">EN</span>
+            </div>
+            <div class="expected">✅ Attendu : Specific question response in English</div>
+            <div class="result" id="result-en-4">Click question to test...</div>
+        </div>
+    </div>
+
+    <!-- Tests Arabe -->
+    <div class="test-section">
+        <h3>🇸🇦 Tests en Arabe</h3>
+        
+        <div class="test-item">
+            <div class="question" onclick="testQuestion('أداء الحملات', 'ar-1')">
+                "أداء الحملات" <span class="lang-indicator">AR</span>
+            </div>
+            <div class="expected">✅ Attendu : لوحة تحكم شاملة باللغة العربية مع العائد على الاستثمار</div>
+            <div class="result" id="result-ar-1">انقر على السؤال للاختبار...</div>
+        </div>
+        
+        <div class="test-item">
+            <div class="question" onclick="testQuestion('معدل فتح البريد الإلكتروني', 'ar-2')">
+                "معدل فتح البريد الإلكتروني" <span class="lang-indicator">AR</span>
+            </div>
+            <div class="expected">✅ Attendu : تحليل مفصل باللغة العربية مع المقاييس الحقيقية</div>
+            <div class="result" id="result-ar-2">انقر على السؤال للاختبار...</div>
+        </div>
+        
+        <div class="test-item">
+            <div class="question" onclick="testQuestion('إنشاء حملة بريد إلكتروني', 'ar-3')">
+                "إنشاء حملة بريد إلكتروني" <span class="lang-indicator">AR</span>
+            </div>
+            <div class="expected">✅ Attendu : دليل خطوة بخطوة باللغة العربية</div>
+            <div class="result" id="result-ar-3">انقر على السؤال للاختبار...</div>
+        </div>
+        
+        <div class="test-item">
+            <div class="question" onclick="testQuestion('ما هو العائد على الاستثمار', 'ar-4')">
+                "ما هو العائد على الاستثمار" <span class="lang-indicator">AR</span>
+            </div>
+            <div class="expected">✅ Attendu : استجابة عامة باللغة العربية</div>
+            <div class="result" id="result-ar-4">انقر على السؤال للاختبار...</div>
+        </div>
+    </div>
+
+    <!-- Tests Détection de Langue Mixte -->
+    <div class="test-section">
+        <h3>🔍 Tests de Détection Automatique</h3>
+        
+        <div class="test-item">
+            <div class="question" onclick="testQuestion('how to improve email performance?', 'detect-1')">
+                "how to improve email performance?" <span class="lang-indicator">AUTO</span>
+            </div>
+            <div class="expected">✅ Attendu : Détection automatique → Anglais → Réponse en anglais</div>
+            <div class="result" id="result-detect-1">Click to test auto-detection...</div>
+        </div>
+        
+        <div class="test-item">
+            <div class="question" onclick="testQuestion('كيف أحسن أداء الحملات؟', 'detect-2')">
+                "كيف أحسن أداء الحملات؟" <span class="lang-indicator">AUTO</span>
+            </div>
+            <div class="expected">✅ Attendu : Détection automatique → Arabe → Réponse en arabe</div>
+            <div class="result" id="result-detect-2">انقر للاختبار التلقائي...</div>
+        </div>
+        
+        <div class="test-item">
+            <div class="question" onclick="testQuestion('comment créer une campagne efficace?', 'detect-3')">
+                "comment créer une campagne efficace?" <span class="lang-indicator">AUTO</span>
+            </div>
+            <div class="expected">✅ Attendu : Détection automatique → Français → Réponse en français</div>
+            <div class="result" id="result-detect-3">Cliquer pour test auto-détection...</div>
+        </div>
+    </div>
+
+    <script>
+        let totalTests = 0;
+        let successCount = 0;
+        let errorCount = 0;
+
+        function updateStats() {
+            document.getElementById('total-tests').textContent = totalTests;
+            document.getElementById('success-count').textContent = successCount;
+            document.getElementById('error-count').textContent = errorCount;
+            const rate = totalTests > 0 ? Math.round((successCount / totalTests) * 100) : 0;
+            document.getElementById('success-rate').textContent = rate + '%';
+        }
+
+        function testQuestion(question, resultId) {
+            const resultDiv = document.getElementById('result-' + resultId);
+            resultDiv.innerHTML = '<div class="loading">🔄 Test en cours... Détection langue et recherche base de données...</div>';
+            
+            totalTests++;
+            updateStats();
+            
+            // Simuler l'appel AJAX (remplacer par le vrai endpoint)
+            fetch('/ai_chat/get_response', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    jsonrpc: "2.0",
+                    method: "call",
+                    params: {
+                        message: question
+                        // Note: pas de langue spécifiée pour tester la détection automatique
+                    }
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('🤖 Réponse API:', data);
+                
+                if (data.result && data.result.success) {
+                    successCount++;
+                    resultDiv.innerHTML = `
+                        <div class="success">
+                            <strong>✅ SUCCÈS - Réponse de la base PostgreSQL</strong><br/>
+                            <strong>Langue détectée :</strong> ${data.result.language || 'Non spécifiée'}<br/>
+                            <strong>Source :</strong> ${data.result.source || 'Database'}<br/>
+                            <strong>Confiance :</strong> ${data.result.confidence || 'N/A'}<br/>
+                            <strong>Catégorie :</strong> ${data.result.category || 'General'}<br/>
+                            <hr/>
+                            <div style="max-height: 200px; overflow-y: auto; background: white; padding: 10px; border-radius: 5px;">
+                                ${data.result.answer}
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    errorCount++;
+                    resultDiv.innerHTML = `
+                        <div class="error">
+                            <strong>❌ ÉCHEC</strong><br/>
+                            Erreur : ${data.result?.error || data.error?.message || 'Réponse inattendue'}<br/>
+                            <details>
+                                <summary>Détails de la réponse</summary>
+                                <pre>${JSON.stringify(data, null, 2)}</pre>
+                            </details>
+                        </div>
+                    `;
+                }
+                updateStats();
+            })
+            .catch(error => {
+                errorCount++;
+                console.error('❌ Erreur test:', error);
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <strong>❌ ERREUR DE CONNEXION</strong><br/>
+                        ${error.message}<br/>
+                        <em>Vérifiez que Odoo est démarré et que le module est installé.</em>
+                    </div>
+                `;
+                updateStats();
+            });
+        }
+
+        function runAllTests() {
+            // Reset stats
+            totalTests = 0;
+            successCount = 0;
+            errorCount = 0;
+            updateStats();
+            
+            // List of all test IDs
+            const testIds = [
+                ['taux d\'ouverture email', 'fr-1'],
+                ['performance campagne', 'fr-2'],
+                ['créer campagne email', 'fr-3'],
+                ['email open rate', 'en-1'],
+                ['campaign performance', 'en-2'],
+                ['create email campaign', 'en-3'],
+                ['what is my ROI', 'en-4'],
+                ['أداء الحملات', 'ar-1'],
+                ['معدل فتح البريد الإلكتروني', 'ar-2'],
+                ['إنشاء حملة بريد إلكتروني', 'ar-3'],
+                ['ما هو العائد على الاستثمار', 'ar-4'],
+                ['how to improve email performance?', 'detect-1'],
+                ['كيف أحسن أداء الحملات؟', 'detect-2'],
+                ['comment créer une campagne efficace?', 'detect-3']
+            ];
+            
+            // Run tests with delay to avoid overwhelming the server
+            testIds.forEach((test, index) => {
+                setTimeout(() => {
+                    testQuestion(test[0], test[1]);
+                }, index * 500); // 500ms delay between tests
+            });
+        }
+
+        function clearAllResults() {
+            const results = document.querySelectorAll('.result');
+            results.forEach(result => {
+                result.textContent = result.id.includes('en-') ? 'Click question to test...' 
+                                   : result.id.includes('ar-') ? 'انقر على السؤال للاختبار...'
+                                   : 'Cliquez sur la question pour tester...';
+                result.className = 'result';
+            });
+            
+            totalTests = 0;
+            successCount = 0;
+            errorCount = 0;
+            updateStats();
+        }
+
+        // Auto-run a simple test on page load
+        window.addEventListener('load', function() {
+            console.log('🌍 Page de test multilingue chargée');
+            console.log('📋 Instructions:');
+            console.log('1. Démarrez Odoo avec le module ai_chat_assistant');
+            console.log('2. Cliquez sur une question pour tester');
+            console.log('3. Ou utilisez "Lancer Tous les Tests"');
+        });
+    </script>
+</body>
+</html>

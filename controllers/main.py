@@ -47,6 +47,366 @@ class AIChatController(http.Controller):
                 'session_id': session_id if 'session_id' in locals() else None
             }
 
+    @http.route('/ai_chat/get_fallback', type='json', auth='user', methods=['POST'])
+    def get_fallback_response(self, fallback_type='fallback_general', language='fr', **kwargs):
+        """Endpoint spécialisé pour récupérer les réponses de fallback depuis la base de données"""
+        try:
+            _logger.info("🔍 Récupération fallback: %s, langue: %s", fallback_type, language)
+            
+            # Recherche dans la base de données des entrées de fallback
+            knowledge_base = request.env['ai.knowledge.base']
+            
+            # Recherche par question exacte et langue
+            fallback_entry = knowledge_base.search([
+                ('question', '=', fallback_type),
+                ('language', '=', language)
+            ], limit=1)
+            
+            if fallback_entry:
+                _logger.info("✅ Fallback trouvé dans la base de données")
+                return {
+                    'success': True,
+                    'answer': fallback_entry.answer,
+                    'category': fallback_entry.category,
+                    'language': fallback_entry.language
+                }
+            else:
+                # Fallback en français si pas trouvé dans la langue demandée
+                fallback_entry = knowledge_base.search([
+                    ('question', '=', fallback_type),
+                    ('language', '=', 'fr')
+                ], limit=1)
+                
+                if fallback_entry:
+                    _logger.info("✅ Fallback trouvé en français")
+                    return {
+                        'success': True,
+                        'answer': fallback_entry.answer,
+                        'category': fallback_entry.category,
+                        'language': 'fr'
+                    }
+                else:
+                    _logger.warning("⚠️ Aucun fallback trouvé en base de données")
+                    return {
+                        'success': False,
+                        'error': 'Fallback non trouvé en base de données'
+                    }
+                    
+        except Exception as e:
+            _logger.error("🚨 Erreur get_fallback_response: %s", e, exc_info=True)
+            return {
+                'success': False,
+                'error': str(e)
+            }
+
+    def _detect_language(self, message):
+        """Détection automatique de la langue du message"""
+        try:
+            message_lower = message.lower().strip()
+            
+            # Mots-clés français communs dans le marketing
+            french_keywords = [
+                'taux', 'ouverture', 'email', 'campagne', 'performance', 'conversion', 
+                'ameliorer', 'créer', 'comment', 'quel', 'quelle', 'pourquoi', 
+                'dashboard', 'roi', 'revenus', 'clients', 'ventes', 'marketing'
+            ]
+            
+            # Mots-clés anglais communs dans le marketing
+            english_keywords = [
+                'rate', 'open', 'email', 'campaign', 'performance', 'conversion',
+                'improve', 'create', 'how', 'what', 'why', 'dashboard', 'roi',
+                'revenue', 'customers', 'sales', 'marketing', 'analytics'
+            ]
+            
+            # Caractères arabes (plage Unicode)
+            arabic_chars = any('\u0600' <= char <= '\u06FF' for char in message)
+            if arabic_chars:
+                return 'ar'
+            
+            # Compter les correspondances
+            french_count = sum(1 for word in french_keywords if word in message_lower)
+            english_count = sum(1 for word in english_keywords if word in message_lower)
+            
+            # Si plus de mots français
+            if french_count > english_count:
+                return 'fr'
+            elif english_count > 0:
+                return 'en'
+            
+            # Par défaut français si pas de détection claire
+            return 'fr'
+            
+        except Exception as e:
+            _logger.warning("⚠️ Erreur détection langue: %s", e)
+            return 'fr'
+
+    @http.route('/ai_chat/get_response', type='json', auth='user', methods=['POST'])
+    def get_ai_response(self, message, language=None, session_id=None, **kwargs):
+        """Endpoint principal pour récupérer les réponses IA 100% base de données - TOUJOURS une réponse de la base"""
+        try:
+            # Détection automatique de la langue si non spécifiée
+            if not language:
+                language = self._detect_language(message)
+            
+            _logger.info("🤖 Traitement message: %s, langue détectée: %s", message, language)
+            
+            # Utiliser le modèle de recherche amélioré
+            knowledge_base = request.env['ai.knowledge.base']
+            
+            # 1. Recherche directe exacte
+            entries = knowledge_base.search_knowledge(message, language)
+            
+            if entries:
+                best_entry = entries[0] if isinstance(entries, list) else entries
+                _logger.info("✅ Réponse directe trouvée en base de données")
+                best_entry.increment_usage()
+                return {
+                    'success': True,
+                    'answer': best_entry.answer,
+                    'confidence': 0.95,
+                    'category': best_entry.category,
+                    'language': language,
+                    'source': 'direct_match'
+                }
+            
+            # 2. Recherche par mots-clés si pas de correspondance exacte
+            _logger.info("🔍 Recherche par mots-clés dans la base")
+            keyword_entries = self._search_by_keywords(message, language)
+            
+            if keyword_entries:
+                best_keyword_entry = keyword_entries[0]
+                _logger.info("✅ Réponse par mots-clés trouvée en base")
+                best_keyword_entry.increment_usage()
+                return {
+                    'success': True,
+                    'answer': best_keyword_entry.answer,
+                    'confidence': 0.75,
+                    'category': best_keyword_entry.category,
+                    'language': language,
+                    'source': 'keyword_match'
+                }
+            
+            # 3. Recherche par catégorie si pas de mots-clés
+            _logger.info("🔍 Recherche par catégorie dans la base")
+            category = self._detect_message_category(message)
+            category_entries = knowledge_base.search([
+                ('is_active', '=', True),
+                ('category', '=', category),
+                ('language', 'in', [language, 'multi'])
+            ], limit=1)
+            
+            if category_entries:
+                category_entry = category_entries[0]
+                _logger.info("✅ Réponse par catégorie trouvée en base")
+                category_entry.increment_usage()
+                return {
+                    'success': True,
+                    'answer': category_entry.answer,
+                    'confidence': 0.60,
+                    'category': category_entry.category,
+                    'language': language,
+                    'source': 'category_match'
+                }
+            
+            # 4. Dernière option : prendre n'importe quelle entrée active dans la langue
+            _logger.info("🔍 Recherche d'entrée générale dans la base")
+            any_entry = knowledge_base.search([
+                ('is_active', '=', True),
+                ('language', 'in', [language, 'multi'])
+            ], limit=1)
+            
+            if any_entry:
+                general_entry = any_entry[0]
+                _logger.info("✅ Réponse générale trouvée en base")
+                return {
+                    'success': True,
+                    'answer': general_entry.answer,
+                    'confidence': 0.30,
+                    'category': general_entry.category,
+                    'language': language,
+                    'source': 'general_fallback'
+                }
+            
+            # 5. Si vraiment aucune entrée en base (ne devrait jamais arriver)
+            _logger.warning("⚠️ Aucune entrée trouvée en base de données - créer une entrée d'urgence")
+            return {
+                'success': True,
+                'answer': self._create_emergency_database_response(message, language),
+                'confidence': 0.10,
+                'category': 'general',
+                'language': language,
+                'source': 'emergency'
+            }
+                
+        except Exception as e:
+            _logger.error("🚨 Erreur get_ai_response: %s", e, exc_info=True)
+            # Même en cas d'erreur, essayer de donner une réponse de la base
+            return self._emergency_database_fallback(language)
+
+    def _search_by_keywords(self, message, language):
+        """Rechercher par mots-clés dans la base de données"""
+        try:
+            knowledge_base = request.env['ai.knowledge.base']
+            message_lower = message.lower()
+            
+            # Chercher les entrées qui contiennent des mots de la question
+            words = message_lower.split()
+            main_words = [w for w in words if len(w) > 3]  # Mots significatifs seulement
+            
+            if not main_words:
+                return []
+            
+            # Construire une requête de recherche
+            domain = [
+                ('is_active', '=', True),
+                ('language', 'in', [language, 'multi'])
+            ]
+            
+            # Ajouter condition OR pour chaque mot important
+            word_conditions = []
+            for word in main_words:
+                word_conditions.extend([
+                    ('question', 'ilike', word),
+                    ('answer', 'ilike', word)
+                ])
+            
+            if word_conditions:
+                entries = knowledge_base.search(domain, limit=5)
+                # Filtrer manuellement pour améliorer la pertinence
+                relevant_entries = []
+                for entry in entries:
+                    score = 0
+                    entry_text = (entry.question + ' ' + entry.answer).lower()
+                    for word in main_words:
+                        if word in entry_text:
+                            score += 1
+                    if score > 0:
+                        relevant_entries.append(entry)
+                
+                # Trier par score de pertinence
+                relevant_entries.sort(key=lambda e: sum(1 for w in main_words 
+                                                       if w in (e.question + ' ' + e.answer).lower()), 
+                                     reverse=True)
+                return relevant_entries[:3]
+            
+            return []
+            
+        except Exception as e:
+            _logger.error("Erreur _search_by_keywords: %s", e)
+            return []
+
+    def _detect_message_category(self, message):
+        """Détecter la catégorie du message"""
+        message_lower = message.lower()
+        
+        # Marketing patterns
+        if any(word in message_lower for word in ['campagne', 'campaign', 'marketing', 'promotion', 'حملة']):
+            return 'campaigns'
+        
+        # Analytics patterns  
+        if any(word in message_lower for word in ['performance', 'analytics', 'rapport', 'statistique', 'taux', 'أداء', 'تحليل']):
+            return 'analytics'
+            
+        # Recommendations patterns
+        if any(word in message_lower for word in ['conseil', 'recommandation', 'améliorer', 'optimiser', 'نصيحة', 'تحسين']):
+            return 'recommendations'
+            
+        return 'general'
+
+    def _create_emergency_database_response(self, message, language):
+        """Créer une réponse d'urgence mais basée sur la base de données"""
+        try:
+            # Essayer de créer dynamiquement une réponse utile
+            knowledge_base = request.env['ai.knowledge.base']
+            
+            # Compter les entrées disponibles
+            total_entries = knowledge_base.search_count([('is_active', '=', True)])
+            
+            responses = {
+                'fr': f"""
+                <div style="font-family: Arial, sans-serif;">
+                    <h3>🤖 Assistant Marketing IA</h3>
+                    <p><strong>Votre question:</strong> "{message}"</p>
+                    <p>📚 Ma base de connaissances contient <strong>{total_entries} entrées</strong> disponibles.</p>
+                    <p><strong>Essayez des questions plus spécifiques comme:</strong></p>
+                    <ul>
+                        <li>"Quel est mon taux d'ouverture email ?"</li>
+                        <li>"Comment améliorer mes campagnes ?"</li>
+                        <li>"Montre-moi les performances marketing"</li>
+                        <li>"Créer une nouvelle campagne email"</li>
+                    </ul>
+                    <p><em>Plus votre question est précise, meilleure sera ma réponse depuis la base de données.</em></p>
+                </div>
+                """,
+                'en': f"""
+                <div style="font-family: Arial, sans-serif;">
+                    <h3>🤖 AI Marketing Assistant</h3>
+                    <p><strong>Your question:</strong> "{message}"</p>
+                    <p>📚 My knowledge base contains <strong>{total_entries} entries</strong> available.</p>
+                    <p><strong>Try more specific questions like:</strong></p>
+                    <ul>
+                        <li>"What is my email open rate?"</li>
+                        <li>"How to improve my campaigns?"</li>
+                        <li>"Show me marketing performance"</li>
+                        <li>"Create a new email campaign"</li>
+                    </ul>
+                    <p><em>The more specific your question, the better my response from the database.</em></p>
+                </div>
+                """,
+                'ar': f"""
+                <div style="font-family: Arial, sans-serif; direction: rtl; text-align: right;">
+                    <h3>🤖 مساعد التسويق الذكي</h3>
+                    <p><strong>سؤالك:</strong> "{message}"</p>
+                    <p>📚 قاعدة معرفتي تحتوي على <strong>{total_entries} مدخل</strong> متاح.</p>
+                    <p><strong>جرب أسئلة أكثر تحديداً مثل:</strong></p>
+                    <ul style="text-align: right;">
+                        <li>"ما هو معدل فتح بريدي الإلكتروني؟"</li>
+                        <li>"كيف أحسن حملاتي؟"</li>
+                        <li>"أظهر لي أداء التسويق"</li>
+                        <li>"إنشاء حملة بريد إلكتروني جديدة"</li>
+                    </ul>
+                    <p><em>كلما كان سؤالك أكثر دقة، كانت إجابتي أفضل من قاعدة البيانات.</em></p>
+                </div>
+                """
+            }
+            
+            return responses.get(language, responses['en'])
+            
+        except Exception:
+            return "🤖 Assistant disponible. Posez une question marketing spécifique."
+
+    def _emergency_database_fallback(self, language):
+        """Fallback d'urgence mais toujours depuis la base"""
+        try:
+            knowledge_base = request.env['ai.knowledge.base']
+            
+            # Chercher n'importe quelle entrée active
+            any_entry = knowledge_base.search([
+                ('is_active', '=', True)
+            ], limit=1)
+            
+            if any_entry:
+                return {
+                    'success': True,
+                    'answer': any_entry[0].answer,
+                    'confidence': 0.20,
+                    'category': any_entry[0].category,
+                    'language': language,
+                    'source': 'emergency_fallback'
+                }
+        except Exception:
+            pass
+            
+        # Vraiment dernière option
+        return {
+            'success': True,
+            'answer': "🤖 Service temporairement indisponible. Reconnexion à la base de données...",
+            'confidence': 0.10,
+            'category': 'general',
+            'language': language,
+            'source': 'system_error'
+        }
+
     @http.route('/ai_chat/marketing/insights', type='json', auth='user', methods=['GET'])
     def get_marketing_insights(self):
         """Obtenir des insights marketing"""

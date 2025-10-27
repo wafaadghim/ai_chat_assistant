@@ -5,3 +5,11 @@ access_ai_chat_session,access_ai_chat_session,model_ai_chat_session,base.group_u
 access_ai_chat_session_admin,access_ai_chat_session_admin,model_ai_chat_session,base.group_system,1,1,1,1
 access_ai_chat_message,access_ai_chat_message,model_ai_chat_message,base.group_user,1,1,1,0
 access_ai_chat_message_admin,access_ai_chat_message_admin,model_ai_chat_message,base.group_system,1,1,1,1
+access_ai_knowledge_base_user,ai.knowledge.base user,model_ai_knowledge_base,base.group_user,1,1,1,1
+access_ai_chat_session_user,ai.chat.session user,model_ai_chat_session,base.group_user,1,1,1,1
+access_ai_chat_message_user,ai.chat.message user,model_ai_chat_message,base.group_user,1,1,1,1
+access_ai_knowledge_keyword_user,ai.knowledge.keyword user,model_ai_knowledge_keyword,base.group_user,1,1,1,1
+access_ai_knowledge_base_manager,ai.knowledge.base manager,model_ai_knowledge_base,base.group_system,1,1,1,1
+access_ai_chat_session_manager,ai.chat.session manager,model_ai_chat_session,base.group_system,1,1,1,1
+access_ai_chat_message_manager,ai.chat.message manager,model_ai_chat_message,base.group_system,1,1,1,1
+access_ai_knowledge_keyword_manager,ai.knowledge.keyword manager,model_ai_knowledge_keyword,base.group_system,1,1,1,1

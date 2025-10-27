@@ -1,406 +1,340 @@
-odoo.define('ai_chat_assistant.chatbot', function (require) {
-    "use strict";
+odoo.define('ai_chat_assistant.chat_widget', function (require) {
+    'use strict';
 
-    var ajax = require('web.ajax');
+    var Widget = require('web.Widget');
     var core = require('web.core');
+    var ajax = require('web.ajax');
+
     var _t = core._t;
 
-    console.log("🚀 AI Chat Assistant - Advanced Messenger Style Loading...");
-
-    // Configuration du chatbot
-    var ChatConfig = {
-        apiEndpoints: {
-            process: '/ai_chat/process',
-            insights: '/ai_chat/marketing/insights',
-            recommendations: '/ai_chat/recommendations',
-            createSession: '/ai_chat/session/create',
-            quickAction: '/ai_chat/quick_action'
-        },
-        currentSession: null,
-        isTyping: false,
-        isOpen: false,
-        autoSuggestions: [
-            "ما أفضل قناة إعلانية هذا الشهر؟",
-            "اعطني تقرير الحملات الأقل أداء",
-            "توصيات لتحسين معدل الفتح",
-            "تحليل أداء الحملات الحالية",
-            "What's the best advertising channel this month?",
-            "Give me report on underperforming campaigns",
-            "Recommendations to improve open rate"
-        ],
-        welcomeMessages: {
-            ar: `مرحباً! 👋 أنا مساعد الذكاء الاصطناعي المتخصص في التسويق.
-
-🎯 يمكنني مساعدتك في:
-• تحليل أداء الحملات التسويقية  
-• تقديم توصيات لتحسين النتائج
-• الإجابة على أسئلة حول استراتيجية التسويق
-• تحليل البيانات وتقديم رؤى ذكية
-
-كيف يمكنني مساعدتك اليوم؟`,
-            
-            fr: `Bonjour! 👋 Je suis l'assistant IA spécialisé en marketing.
-
-🎯 Je peux vous aider avec:
-• Analyse des performances de campagnes
-• Recommandations d'optimisation  
-• Questions sur la stratégie marketing
-• Analyse de données et insights intelligents
-
-Comment puis-je vous aider aujourd'hui?`,
-            
-            en: `Hello! 👋 I'm your AI Marketing Assistant.
-
-🎯 I can help you with:
-• Campaign performance analysis
-• Optimization recommendations
-• Marketing strategy questions  
-• Data analysis and smart insights
-
-How can I help you today?`
-        }
-    };
-
-    // Classe principale du chatbot
-    var AIChatbot = {
+    var AIChatWidget = Widget.extend({
+        template: 'ai_chat_assistant.chat_widget',
         
-        init: function() {
-            console.log("✅ Initializing Advanced AI Chatbot...");
-            this.createLauncher();
-            this.bindGlobalEvents();
+        events: {
+            'click .ai-send-btn': '_onSendMessage',
+            'keypress .ai-chat-input': '_onKeyPress',
+            'click .ai-quick-action': '_onQuickAction',
         },
 
-        createLauncher: function() {
-            // Supprimer launcher existant
-            $('.chat-launcher').remove();
-            
-            var launcher = $(`
-                <button class="chat-launcher" title="AI Marketing Assistant - Click to chat">
-                    🤖
-                </button>
-            `);
-            
-            launcher.on('click', this.toggleChat.bind(this));
-            $('body').append(launcher);
-            
-            console.log("✅ Chat launcher created with Odoo styling");
+        init: function (parent, options) {
+            this._super.apply(this, arguments);
+            this.session_id = options.session_id || false;
+            this.language = options.language || 'fr';
         },
 
-        toggleChat: function() {
-            if (ChatConfig.isOpen) {
-                this.closeChat();
-            } else {
-                this.openChat();
+        start: function () {
+            this._super.apply(this, arguments);
+            this._initializeChat();
+            return $.when();
+        },
+
+        _initializeChat: function () {
+            // Créer une nouvelle session si nécessaire
+            if (!this.session_id) {
+                this._createNewSession();
             }
-        },
-
-        openChat: function() {
-            if (ChatConfig.isOpen) return;
-            
-            console.log("🎯 Opening advanced chat widget...");
-            ChatConfig.isOpen = true;
-            
-            // Créer session si nécessaire
-            if (!ChatConfig.currentSession) {
-                this.createSession().then((sessionData) => {
-                    this.createChatWidget(sessionData.welcome_message);
-                }).catch(() => {
-                    this.createChatWidget();
-                });
-            } else {
-                this.createChatWidget();
-            }
-        },
-
-        createChatWidget: function(welcomeMessage = null) {
-            $('.chat-widget').remove();
-            
-            var widget = $(`
-                <div class="chat-widget">
-                    <div class="chat-header">
-                        <div class="chat-header-content">
-                            <div class="chat-avatar">🤖</div>
-                            <div class="chat-header-info">
-                                <h3>AI Assistant</h3>
-                                <div class="status">
-                                    <div class="status-dot"></div>
-                                    En ligne - Prêt à vous aider
-                                </div>
-                            </div>
-                        </div>
-                        <button class="chat-close" title="Fermer">✕</button>
-                    </div>
-                    <div class="chat-messages">
-                        <div class="messages-container"></div>
-                    </div>
-                    <div class="quick-suggestions">
-                        <div class="suggestions-title">Suggestions rapides</div>
-                        <div class="suggestions-list"></div>
-                    </div>
-                    <div class="chat-input-area">
-                        <div class="input-container">
-                            <textarea class="chat-input" placeholder="Tapez votre question ici..." rows="1"></textarea>
-                        </div>
-                        <div class="input-actions">
-                            <button class="chat-options" title="Options">⚙️</button>
-                            <button class="chat-send" title="Envoyer">➤</button>
-                        </div>
-                    </div>
-                </div>
-            `);
-            
-            $('body').append(widget);
-            
-            // Animation d'entrée
-            setTimeout(() => widget.addClass('show'), 50);
-            
-            // Bind events
-            this.bindChatEvents(widget);
             
             // Message de bienvenue
-            var defaultMessage = welcomeMessage || this.getWelcomeMessage();
-            setTimeout(() => {
-                this.addMessage('bot', defaultMessage);
-                this.loadQuickSuggestions();
-            }, 500);
-            
-            // Focus sur input
-            setTimeout(() => widget.find('.chat-input').focus(), 800);
+            this._addWelcomeMessage();
         },
 
-        bindChatEvents: function(widget) {
+        _createNewSession: function () {
+            var self = this;
+            ajax.rpc('/ai_chat/create_session', {
+                session_type: 'marketing'
+            }).then(function (result) {
+                self.session_id = result.session_id;
+            });
+        },
+
+        _addWelcomeMessage: function () {
+            const welcomeMessages = {
+                'fr': "👋 Bonjour ! Je suis votre assistant marketing IA. Comment puis-je vous aider aujourd'hui ?",
+                'en': "👋 Hello! I'm your AI marketing assistant. How can I help you today?",
+                'ar': "👋 مرحبا! أنا مساعدك للتسويق بالذكاء الاصطناعي. كيف يمكنني مساعدتك اليوم؟"
+            };
+            
+            const message = welcomeMessages[this.language] || welcomeMessages['en'];
+            this._addMessageToChat(message, 'bot');
+        },
+
+        _onSendMessage: function () {
+            const input = this.$('.ai-chat-input');
+            const message = input.val().trim();
+            
+            if (message) {
+                this._sendAIMessage(message);
+                input.val('');
+            }
+        },
+
+        _onKeyPress: function (event) {
+            if (event.which === 13 && !event.shiftKey) {
+                event.preventDefault();
+                this._onSendMessage();
+            }
+        },
+
+        _onQuickAction: function (event) {
+            const action = $(event.currentTarget).data('action');
+            const text = $(event.currentTarget).text();
+            
+            // Simuler l'envoi du message pour l'action rapide
+            this._sendAIMessage(text);
+        },
+
+        _sendAIMessage: function (userMessage) {
             var self = this;
             
-            // Fermer chat
-            widget.find('.chat-close').on('click', () => this.closeChat());
+            // Ajouter le message utilisateur
+            this._addMessageToChat(userMessage, 'user');
             
-            // Envoyer message
-            widget.find('.chat-send').on('click', () => this.sendMessage());
+            // Afficher l'indicateur de frappe
+            this._showTypingIndicator();
             
-            // Enter pour envoyer (sans Shift)
-            widget.find('.chat-input').on('keydown', function(e) {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    self.sendMessage();
-                }
-            });
-            
-            // Auto-resize textarea
-            widget.find('.chat-input').on('input', function() {
-                this.style.height = 'auto';
-                this.style.height = Math.min(this.scrollHeight, 120) + 'px';
-            });
-            
-            // Click sur suggestions
-            widget.on('click', '.suggestion-btn', function() {
-                var suggestionText = $(this).text();
-                widget.find('.chat-input').val(suggestionText);
-                self.sendMessage();
-            });
-            
-            // Actions rapides
-            widget.on('click', '.action-btn', function() {
-                var actionType = $(this).data('action');
-                self.executeQuickAction(actionType);
-            });
-        },
-
-        closeChat: function() {
-            var widget = $('.chat-widget');
-            widget.removeClass('show');
-            ChatConfig.isOpen = false;
-            setTimeout(() => widget.remove(), 300);
-        },
-
-        sendMessage: function() {
-            var input = $('.chat-input');
-            var message = input.val().trim();
-            
-            if (!message || ChatConfig.isTyping) return;
-            
-            // Ajouter message utilisateur
-            this.addMessage('user', message);
-            input.val('');
-            input.css('height', 'auto');
-            
-            // Traiter le message
-            this.processMessage(message);
-        },
-
-        processMessage: function(message) {
-            var self = this;
-            ChatConfig.isTyping = true;
-            
-            // Afficher indicateur de frappe
-            this.showTypingIndicator();
-            
-            // Appel API vers le backend Odoo
-            ajax.jsonRpc(ChatConfig.apiEndpoints.process, 'call', {
-                message: message,
-                session_id: ChatConfig.currentSession
-            }).then(function(result) {
-                self.hideTypingIndicator();
-                ChatConfig.isTyping = false;
+            // Envoyer au serveur (langue détectée automatiquement)
+            ajax.rpc('/ai_chat/get_response', {
+                'message': userMessage,
+                'session_id': this.session_id
+                // Note: langue détectée automatiquement par le backend
+            }).then(function (result) {
+                self._hideTypingIndicator();
                 
-                if (result.success) {
-                    self.addMessage('bot', result.response);
-                    
-                    // Mettre à jour session
-                    if (result.session_id) {
-                        ChatConfig.currentSession = result.session_id;
-                    }
-                    
-                    // Afficher actions rapides si disponibles
-                    if (result.quick_actions && result.quick_actions.length > 0) {
-                        self.showQuickActions(result.quick_actions);
-                    }
+                if (!result.success || result.error) {
+                    self._addMessageToChat(result.answer || result.response || 'Erreur de connexion', 'bot');
                 } else {
-                    self.addMessage('bot', result.error || 'Désolé, une erreur est survenue. Veuillez réessayer.');
+                    // L'endpoint retourne 'answer' pas 'response'
+                    self._addMessageToChat(result.answer || result.response, 'bot');
+                    
+                    // Log pour debug
+                    console.log('🤖 Réponse reçue:', {
+                        success: result.success,
+                        language: result.language,
+                        source: result.source,
+                        confidence: result.confidence
+                    });
+                    
+                    // Ajouter les actions rapides si disponibles
+                    if (result.quick_actions && result.quick_actions.length > 0) {
+                        self._addQuickActions(result.quick_actions);
+                    }
                 }
-            }).catch(function(error) {
-                console.error('Erreur API chatbot:', error);
-                self.hideTypingIndicator();
-                ChatConfig.isTyping = false;
-                self.addMessage('bot', 'Désolé, je ne peux pas traiter votre demande actuellement. Veuillez réessayer plus tard.');
+            }).catch(function (error) {
+                self._hideTypingIndicator();
+                console.error('🚨 Erreur connexion serveur:', error);
+                
+                // Réessayer une fois avant le fallback
+                console.log('🔄 Tentative de reconnexion à la base de données...');
+                
+                setTimeout(function() {
+                    ajax.rpc('/ai_chat/get_response', {
+                        'message': userMessage,
+                        'session_id': self.session_id
+                        // Note: langue détectée automatiquement par le backend
+                    }).then(function (retryResult) {
+                        if (retryResult && retryResult.success && !retryResult.error) {
+                            console.log('✅ Reconnexion réussie - réponse de la base de données');
+                            self._addMessageToChat(retryResult.answer || retryResult.response, 'bot');
+                        } else {
+                            console.log('⚠️ Reconnexion échouée - utilisation fallback temporaire');
+                            const fallbackResponse = self._getDatabaseConnectionError(userMessage, self.language);
+                            self._addMessageToChat(fallbackResponse, 'bot');
+                        }
+                    }).catch(function() {
+                        console.log('❌ Reconnexion impossible - fallback temporaire');
+                        const fallbackResponse = self._getDatabaseConnectionError(userMessage, self.language);
+                        self._addMessageToChat(fallbackResponse, 'bot');
+                    });
+                }, 1000); // Attendre 1 seconde avant de réessayer
             });
         },
 
-        addMessage: function(type, text) {
-            var container = $('.messages-container');
-            var timestamp = new Date().toLocaleTimeString('fr-FR', {
-                hour: '2-digit', 
-                minute: '2-digit'
-            });
+        _getDatabaseConnectionError: function (userMessage, language) {
+            // Messages d'erreur de connexion qui encouragent la spécificité
+            const connectionErrors = {
+                'fr': `
+                    <div style="border-left: 4px solid #ffc107; padding: 15px; background-color: #fff3cd; border-radius: 5px; margin: 10px 0;">
+                        <h4 style="color: #856404; margin-top: 0;">⚠️ Connexion à la base de données interrompue</h4>
+                        <p><strong>Votre question :</strong> "${userMessage}"</p>
+                        <p style="color: #856404;">Je tente de récupérer une réponse précise depuis ma base PostgreSQL...</p>
+                        <p><strong>En attendant, reformulez votre question de manière plus spécifique :</strong></p>
+                        <ul style="color: #856404;">
+                            <li>"Quel est mon taux d'ouverture email cette semaine ?"</li>
+                            <li>"Montre-moi les performances de ma dernière campagne"</li>
+                            <li>"Comment améliorer mes conversions email ?"</li>
+                            <li>"Créer une nouvelle campagne marketing"</li>
+                        </ul>
+                        <p><em style="color: #856404;">Plus votre question est précise, plus ma réponse depuis la base sera exacte.</em></p>
+                        <button onclick="location.reload()" style="background: #ffc107; color: #856404; border: none; padding: 8px 15px; border-radius: 3px; cursor: pointer; margin-top: 10px;">
+                            🔄 Reconnecter à la base de données
+                        </button>
+                    </div>
+                `,
+                'en': `
+                    <div style="border-left: 4px solid #ffc107; padding: 15px; background-color: #fff3cd; border-radius: 5px; margin: 10px 0;">
+                        <h4 style="color: #856404; margin-top: 0;">⚠️ Database connection interrupted</h4>
+                        <p><strong>Your question:</strong> "${userMessage}"</p>
+                        <p style="color: #856404;">I'm trying to get a precise answer from my PostgreSQL database...</p>
+                        <p><strong>Meanwhile, rephrase your question more specifically:</strong></p>
+                        <ul style="color: #856404;">
+                            <li>"What is my email open rate this week?"</li>
+                            <li>"Show me my latest campaign performance"</li>
+                            <li>"How to improve my email conversions?"</li>
+                            <li>"Create a new marketing campaign"</li>
+                        </ul>
+                        <p><em style="color: #856404;">The more specific your question, the more accurate my database response.</em></p>
+                        <button onclick="location.reload()" style="background: #ffc107; color: #856404; border: none; padding: 8px 15px; border-radius: 3px; cursor: pointer; margin-top: 10px;">
+                            🔄 Reconnect to database
+                        </button>
+                    </div>
+                `,
+                'ar': `
+                    <div style="border-left: 4px solid #ffc107; padding: 15px; background-color: #fff3cd; border-radius: 5px; margin: 10px 0; direction: rtl; text-align: right;">
+                        <h4 style="color: #856404; margin-top: 0;">⚠️ انقطع الاتصال بقاعدة البيانات</h4>
+                        <p><strong>سؤالك:</strong> "${userMessage}"</p>
+                        <p style="color: #856404;">أحاول الحصول على إجابة دقيقة من قاعدة PostgreSQL...</p>
+                        <p><strong>في الوقت الحالي، أعد صياغة سؤالك بشكل أكثر تحديداً:</strong></p>
+                        <ul style="color: #856404; text-align: right;">
+                            <li>"ما هو معدل فتح بريدي الإلكتروني هذا الأسبوع؟"</li>
+                            <li>"أظهر لي أداء حملتي الأخيرة"</li>
+                            <li>"كيف أحسن تحويلات البريد الإلكتروني؟"</li>
+                            <li>"إنشاء حملة تسويقية جديدة"</li>
+                        </ul>
+                        <p><em style="color: #856404;">كلما كان سؤالك أكثر دقة، كانت إجابتي من قاعدة البيانات أكثر دقة.</em></p>
+                        <button onclick="location.reload()" style="background: #ffc107; color: #856404; border: none; padding: 8px 15px; border-radius: 3px; cursor: pointer; margin-top: 10px;">
+                            🔄 إعادة الاتصال بقاعدة البيانات
+                        </button>
+                    </div>
+                `
+            };
             
-            var messageElement = $(`
-                <div class="chat-message ${type}">
-                    <div class="message-avatar">${type === 'user' ? '👤' : '🤖'}</div>
-                    <div class="chat-bubble">${text}</div>
+            return connectionErrors[language] || connectionErrors['en'];
+        },
+
+        _getStaticAIResponse: function (userMessage, language) {
+            // CORRECTION : Définir 'responses' localement
+            const responses = {
+                'fr': {
+                    'greeting': "Bonjour ! Comment puis-je vous aider avec votre marketing aujourd'hui ?",
+                    'performance': "Voici un aperçu de vos performances marketing. Pour des données précises, veuillez vous connecter au serveur.",
+                    'campaigns': "Analysons vos campagnes. Les détails complets nécessitent une connexion serveur.",
+                    'help': "Je peux vous aider avec l'analyse marketing, les campagnes, et les recommandations.",
+                    'analytics': "Voici vos analytics marketing. Connexion serveur requise pour les données en temps réel.",
+                    'default': "Je comprends votre question sur le marketing. Veuillez réessayer quand la connexion sera rétablie."
+                },
+                'en': {
+                    'greeting': "Hello! How can I help you with your marketing today?",
+                    'performance': "Here's an overview of your marketing performance. Connect to server for precise data.",
+                    'campaigns': "Let's analyze your campaigns. Full details require server connection.",
+                    'help': "I can help you with marketing analysis, campaigns, and recommendations.",
+                    'analytics': "Here are your marketing analytics. Server connection required for real-time data.",
+                    'default': "I understand your marketing question. Please try again when connection is restored."
+                },
+                'ar': {
+                    'greeting': "مرحبا! كيف يمكنني مساعدتك في التسويق اليوم؟",
+                    'performance': "إليك نظرة عامة على أداء التسويق. اتصل بالخادم للحصول على بيانات دقيقة.",
+                    'campaigns': "دعنا نحلل حملاتك. التفاصيل الكاملة تتطلب اتصال بالخادم.",
+                    'help': "يمكنني مساعدتك في تحليل التسويق والحملات والتوصيات.",
+                    'analytics': "إليك تحليلات التسويق الخاصة بك. اتصال الخادم مطلوب للبيانات الفورية.",
+                    'default': "أفهم سؤالك حول التسويق. يرجى المحاولة مرة أخرى عند استعادة الاتصال."
+                }
+            };
+            
+            // Déterminer la clé de réponse appropriée
+            const key = this._determineResponseKey(userMessage);
+            
+            return responses[language]?.[key] || responses['en']?.[key] || responses['en']['default'];
+        },
+
+        _determineResponseKey: function (message) {
+            const msgLower = message.toLowerCase();
+            
+            // Détection de salutations
+            if (msgLower.includes('bonjour') || msgLower.includes('hello') || msgLower.includes('مرحبا') ||
+                msgLower.includes('salut') || msgLower.includes('hi') || msgLower.includes('أهلا')) {
+                return 'greeting';
+            }
+            
+            // Détection de questions sur performance
+            if (msgLower.includes('performance') || msgLower.includes('أداء') || msgLower.includes('résultat') ||
+                msgLower.includes('efficacité') || msgLower.includes('metrics') || msgLower.includes('مقاييس')) {
+                return 'performance';
+            }
+            
+            // Détection de questions sur campagnes
+            if (msgLower.includes('campaign') || msgLower.includes('campagne') || msgLower.includes('حملة') ||
+                msgLower.includes('email') || msgLower.includes('newsletter') || msgLower.includes('بريد')) {
+                return 'campaigns';
+            }
+            
+            // Détection de demandes d'aide
+            if (msgLower.includes('help') || msgLower.includes('aide') || msgLower.includes('مساعدة') ||
+                msgLower.includes('comment') || msgLower.includes('how') || msgLower.includes('كيف')) {
+                return 'help';
+            }
+            
+            // Détection d'analytics
+            if (msgLower.includes('analytics') || msgLower.includes('analyse') || msgLower.includes('تحليل') ||
+                msgLower.includes('rapport') || msgLower.includes('report') || msgLower.includes('تقرير')) {
+                return 'analytics';
+            }
+            
+            return 'default';
+        },
+
+        _addMessageToChat: function (message, type, showTimestamp = true) {
+            const chatContainer = this.$('.ai-chat-messages');
+            const timestamp = showTimestamp ? new Date().toLocaleTimeString() : '';
+            
+            const messageElement = $(`
+                <div class="message ${type}-message">
+                    <div class="message-content">
+                        ${message}
+                    </div>
+                    ${timestamp ? `<div class="message-timestamp">${timestamp}</div>` : ''}
                 </div>
-                <div class="message-time">${timestamp}</div>
             `);
             
-            container.append(messageElement);
-            this.scrollToBottom();
+            chatContainer.append(messageElement);
+            chatContainer.scrollTop(chatContainer[0].scrollHeight);
         },
 
-        showTypingIndicator: function() {
-            var container = $('.messages-container');
-            var typingElement = $(`
-                <div class="typing-indicator">
-                    <div class="typing-avatar">🤖</div>
-                    <div class="typing-bubble">
-                        <div class="typing-dots">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
+        _addQuickActions: function (actions) {
+            const actionsContainer = $('<div class="quick-actions-container">');
+            
+            actions.forEach(action => {
+                const button = $(`
+                    <button class="ai-quick-action btn btn-sm btn-outline-primary" 
+                            data-action="${action.action}">
+                        ${action.text}
+                    </button>
+                `);
+                actionsContainer.append(button);
+            });
+            
+            this.$('.ai-chat-messages').append(actionsContainer);
+        },
+
+        _showTypingIndicator: function () {
+            const indicator = $(`
+                <div class="message bot-message typing-indicator">
+                    <div class="message-content">
+                        <span class="typing-dots">
+                            <span></span><span></span><span></span>
+                        </span>
+                        Assistant en train d'écrire...
                     </div>
                 </div>
             `);
             
-            container.append(typingElement);
-            this.scrollToBottom();
+            this.$('.ai-chat-messages').append(indicator);
+            this.$('.ai-chat-messages').scrollTop(this.$('.ai-chat-messages')[0].scrollHeight);
         },
 
-        hideTypingIndicator: function() {
-            $('.typing-indicator').remove();
-        },
-
-        scrollToBottom: function() {
-            var messagesArea = $('.chat-messages');
-            messagesArea.scrollTop(messagesArea[0].scrollHeight);
-        },
-
-        loadQuickSuggestions: function() {
-            var suggestionsContainer = $('.suggestions-list');
-            suggestionsContainer.empty();
-            
-            // Charger les suggestions aléatoires
-            var shuffled = ChatConfig.autoSuggestions.sort(() => 0.5 - Math.random());
-            var selected = shuffled.slice(0, 3);
-            
-            selected.forEach(function(suggestion) {
-                var btn = $(`<button class="suggestion-btn">${suggestion}</button>`);
-                suggestionsContainer.append(btn);
-            });
-        },
-
-        showQuickActions: function(actions) {
-            var container = $('.messages-container');
-            var actionsHtml = '<div class="quick-actions-container"><div class="actions-title">Actions rapides:</div>';
-            
-            actions.forEach(function(action) {
-                actionsHtml += `<button class="action-btn" data-action="${action.action}">${action.text}</button>`;
-            });
-            
-            actionsHtml += '</div>';
-            container.append(actionsHtml);
-            this.scrollToBottom();
-        },
-
-        executeQuickAction: function(actionType) {
-            var self = this;
-            
-            ajax.jsonRpc(ChatConfig.apiEndpoints.quickAction, 'call', {
-                action: actionType
-            }).then(function(result) {
-                if (result.success) {
-                    self.addMessage('bot', result.message);
-                    
-                    if (result.data) {
-                        // Afficher des données supplémentaires si disponibles
-                        console.log('Action data:', result.data);
-                    }
-                } else {
-                    self.addMessage('bot', 'Cette action n\'est pas disponible pour le moment.');
-                }
-            }).catch(function(error) {
-                console.error('Erreur action rapide:', error);
-                self.addMessage('bot', 'Erreur lors de l\'exécution de l\'action.');
-            });
-        },
-
-        createSession: function() {
-            return ajax.jsonRpc(ChatConfig.apiEndpoints.createSession, 'call', {});
-        },
-
-        getWelcomeMessage: function() {
-            // Détecter la langue de l'utilisateur (simple heuristic)
-            var userLang = (navigator.language || navigator.userLanguage || 'en').substring(0, 2);
-            
-            return ChatConfig.welcomeMessages[userLang] || ChatConfig.welcomeMessages['en'];
-        },
-
-        bindGlobalEvents: function() {
-            var self = this;
-            
-            // ESC pour fermer
-            $(document).on('keydown', function(e) {
-                if (e.key === 'Escape' && ChatConfig.isOpen) {
-                    self.closeChat();
-                }
-            });
-            
-            // Clic en dehors pour fermer (optionnel)
-            $(document).on('click', function(e) {
-                if (ChatConfig.isOpen && 
-                    !$(e.target).closest('.chat-widget, .chat-launcher').length) {
-                    // Optionnel: décommenter pour fermer en cliquant en dehors
-                    // self.closeChat();
-                }
-            });
+        _hideTypingIndicator: function () {
+            this.$('.typing-indicator').remove();
         }
-    };
-
-    // Auto-initialisation quand le DOM est prêt
-    $(document).ready(function() {
-        setTimeout(function() {
-            AIChatbot.init();
-            console.log("✅ AI Chat Assistant initialized successfully with advanced features");
-        }, 1000);
     });
 
-    // Export pour usage externe
-    return AIChatbot;
+    return AIChatWidget;
 });
